@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EmprendeNet</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,6 +22,25 @@
     </script>
 </head>
 <body>
-    
+    <header class="bg-white dark:bg-gray-800 shadow-md transition-colors duration-500">
+        <nav class="max-w-6x1 mx-auto flex items-center justify-between p-4">
+            <div class="flex items-center gap-2">
+                <span class="text-x1 font-bold text-primario">EmprendeNet</span>
+            </div>
+
+            <ul class="hidden md:flex gap-6 text-sm font-medium">
+                <li><a href="#inicio" class="hover:text-primario">Inicio</a></li>
+                <li><a href="#Propuesta" class="hover:text-primario">Propuesta</a></li>
+                <li><a href="#Acerca" class="hover:text-primario">Acerca</a></li>
+                <li><a href="#Contacto" class="hover:text-primario">Contacto</a></li>
+            </ul>
+
+            <div class="flex items-center gap-3">
+                <button id="modo" class="px-3 py-1 rounded bg-primario text-white text-sm hover:opacity-80 transition">
+                    Cambiar tema
+                </button>
+            </div>
+        </nav>
+    </header>
 </body>
 </html>
