@@ -103,6 +103,12 @@
       `translateX(-${index * 100}%)`;
     updateIndicators();
   }
+  // Inicializar estado y autoplay: avanzar cada 3 segundos
+  document.getElementById('carouselTW').style.transform = `translateX(0%)`;
+  updateIndicators();
+
+  // Avanza automáticamente cada 3000 ms (3 segundos)
+  const twAutoPlay = setInterval(() => moveTW(1), 3000);
 </script>
 </section>
 </body>
