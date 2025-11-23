@@ -144,16 +144,18 @@
     </div>
 
     <script>
-        (function () {
+         (function () {
             const form = document.getElementById('contactForm');
             const nombre = document.getElementById('nombre');
             const correo = document.getElementById('correo');
             const asunto = document.getElementById('asunto');
             const mensaje = document.getElementById('mensaje');
 
+            // Referencias a los mensajes de error de cada campo
             const errorNombre = document.getElementById('errorNombre');
             const errorCorreo = document.getElementById('errorCorreo');
             const errorAsunto = document.getElementById('errorAsunto');
+            const errorCaptcha = document.getElementById('errorCaptcha'); // Nuevo elemento de error para reCAPTCHA
 
             const modal = document.getElementById('modal');
             const modalNombre = document.getElementById('modalNombre');
@@ -163,8 +165,8 @@
             const closeModal = document.getElementById('closeModal');
             const modalAceptar = document.getElementById('modalAceptar');
 
-            //si la condición es válida oculta el mensaje hidden y quita el borde rojo
-            // si es invalid, muestra el mensaje y agrega el borde rojo
+            // Si la condición es válida oculta el mensaje (hidden) y quita el borde rojo.
+            // Si es inválida, muestra el mensaje y agrega el borde rojo.
             function mostrarError(elemento, errorElemento, condicionValida) {
                 errorElemento.classList.toggle('hidden', condicionValida);
                 elemento.classList.toggle('border-red-500', !condicionValida);
@@ -184,17 +186,37 @@
                 return mostrarError(asunto, errorAsunto, asunto.value.trim().length >= 5);
             }
 
-              //cuando el usuario sale del campo blur se hace la validación
+            // Valida que el usuario haya resuelto el reCAPTCHA de Google.
+            // grecaptcha.getResponse() devuelve una cadena vacía si no está marcado.
+            function validarCaptcha() {
+                const response = grecaptcha.getResponse();
+                const esValido = response.length > 0;
+
+                if (errorCaptcha) {
+                    errorCaptcha.classList.toggle('hidden', esValido);
+                }
+
+                return esValido;
+            }
+
+              // Cuando el usuario sale del campo (evento blur) se hace la validación inmediata.
 
             nombre.addEventListener('blur', validarNombre); 
             correo.addEventListener('blur', validarCorreo);
             asunto.addEventListener('blur', validarAsunto);
 
+            // Al enviar el formulario se validan los campos y el captcha.
             form.addEventListener('submit', function (event) {
-                event.preventDefault();
+                event.preventDefault(); // Evita el envío tradicional del formulario.
 
-                const valido = validarNombre() & validarCorreo() & validarAsunto();
-                if (!valido) return;
+                // Validaciones de los tres campos requeridos.
+                const validoCampos = validarNombre() & validarCorreo() & validarAsunto();
+
+                // Validación del reCAPTCHA (casilla "No soy un robot").
+                const validoCaptcha = validarCaptcha();
+
+                // Si algún campo o el captcha es inválido, no se muestra el modal.
+                if (!(validoCampos && validoCaptcha)) return;
 
                 modalNombre.textContent = nombre.value.trim();
                 modalCorreo.textContent = correo.value.trim();
