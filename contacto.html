@@ -49,7 +49,7 @@
         <li><a href="index.html" class="hover:text-orange-500">Inicio</a></li>
         <li><a href="#Propuesta" class="hover:text-orange-500">Propuesta</a></li>
         <li><a href="acerca.html" class="hover:text-orange-500">Acerca</a></li>
-        <li><a href="Contacto.html" class="hover:text-orange-500">Contacto</a></li>
+        <li><a href="contacto.html" class="hover:text-orange-500">Contacto</a></li>
     </ul>
 </header>
 
@@ -130,6 +130,82 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-orange-300 to-yellow-300 w-full mt-8 shadow-md">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="py-6 text-center font-semibold">© 2025 EmprendeNet | Todos los derechos reservados</div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const form = document.getElementById('contactForm');
+            const nombre = document.getElementById('nombre');
+            const correo = document.getElementById('correo');
+            const asunto = document.getElementById('asunto');
+            const mensaje = document.getElementById('mensaje');
+
+            const errorNombre = document.getElementById('errorNombre');
+            const errorCorreo = document.getElementById('errorCorreo');
+            const errorAsunto = document.getElementById('errorAsunto');
+
+            const modal = document.getElementById('modal');
+            const modalNombre = document.getElementById('modalNombre');
+            const modalCorreo = document.getElementById('modalCorreo');
+            const modalAsunto = document.getElementById('modalAsunto');
+            const modalMensaje = document.getElementById('modalMensaje');
+            const closeModal = document.getElementById('closeModal');
+            const modalAceptar = document.getElementById('modalAceptar');
+
+            function mostrarError(elemento, errorElemento, condicionValida) {
+                errorElemento.classList.toggle('hidden', condicionValida);
+                elemento.classList.toggle('border-red-500', !condicionValida);
+                return condicionValida;
+            }
+
+            function validarNombre() {
+                return mostrarError(nombre, errorNombre, nombre.value.trim().length >= 3);
+            }
+
+            function validarCorreo() {
+                const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim());
+                return mostrarError(correo, errorCorreo, correoValido);
+            }
+
+            function validarAsunto() {
+                return mostrarError(asunto, errorAsunto, asunto.value.trim().length >= 5);
+            }
+
+            nombre.addEventListener('blur', validarNombre); 
+            correo.addEventListener('blur', validarCorreo);
+            asunto.addEventListener('blur', validarAsunto);
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const valido = validarNombre() & validarCorreo() & validarAsunto();
+                if (!valido) return;
+
+                modalNombre.textContent = nombre.value.trim();
+                modalCorreo.textContent = correo.value.trim();
+                modalAsunto.textContent = asunto.value.trim();
+                modalMensaje.textContent = mensaje.value.trim() || 'Sin mensaje adicional.';
+
+                modal.classList.remove('hidden');
+            });
+
+            function cerrarModal() {
+                modal.classList.add('hidden');
+            }
+
+            closeModal.addEventListener('click', cerrarModal);
+            modalAceptar.addEventListener('click', cerrarModal);
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) cerrarModal();
+            });
+        })();
+    </script>
 
     <!-- Footer -->
     <footer class="bg-gradient-to-r from-orange-300 to-yellow-300 w-full mt-8 shadow-md">

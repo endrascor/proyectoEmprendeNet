@@ -1,3 +1,11 @@
 {
     "liveServer.settings.port": 5502
 }
+
+// settings.json (global o en .vscode/settings.json del proyecto)
+{
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "tailwindCSS.validate": true
+}
