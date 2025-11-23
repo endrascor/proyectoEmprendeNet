@@ -39,7 +39,7 @@
             <li><a href="index.html" class="hover:text-orange-500 text-xl">Inicio</a></li>
             <li><a href="#Propuesta" class="hover:text-orange-500 text-xl">Propuesta</a></li>
             <li><a href="acerca.html" class="hover:text-orange-500 text-xl">Acerca</a></li>
-            <li><a href="Contacto.html" class="hover:text-orange-500 text-xl">Contacto</a></li>
+            <li><a href="contacto.html" class="hover:text-orange-500 text-xl">Contacto</a></li>
         </ul>
 
     </nav>
@@ -158,6 +158,8 @@
             const closeModal = document.getElementById('closeModal');
             const modalAceptar = document.getElementById('modalAceptar');
 
+            //si la condición es válida oculta el mensaje hidden y quita el borde rojo
+            // si es invalid, muestra el mensaje y agrega el borde rojo
             function mostrarError(elemento, errorElemento, condicionValida) {
                 errorElemento.classList.toggle('hidden', condicionValida);
                 elemento.classList.toggle('border-red-500', !condicionValida);
@@ -176,6 +178,8 @@
             function validarAsunto() {
                 return mostrarError(asunto, errorAsunto, asunto.value.trim().length >= 5);
             }
+
+              //cuando el usuario sale del campo blur se hace la validación
 
             nombre.addEventListener('blur', validarNombre); 
             correo.addEventListener('blur', validarCorreo);
