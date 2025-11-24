@@ -126,8 +126,10 @@
     </main>
 
     <!-- Modal -->
-    <div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
+    <div
+  id="modal"
+  class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity">
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
             <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
             <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">Datos enviados</h3>
             <div class="space-y-2 text-gray-700">
@@ -223,11 +225,11 @@
                 modalAsunto.textContent = asunto.value.trim();
                 modalMensaje.textContent = mensaje.value.trim() || 'Sin mensaje adicional.';
 
-                modal.classList.remove('hidden');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
             });
 
             function cerrarModal() {
-                modal.classList.add('hidden');
+                modal.classList.add('opacity-0', 'pointer-events-none');
             }
 
             closeModal.addEventListener('click', cerrarModal);
