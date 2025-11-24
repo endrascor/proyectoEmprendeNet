@@ -95,6 +95,8 @@
                 <div>
                     <label for="mensaje" class="block text-sm font-semibold text-gray-700 mb-1">Mensaje</label>
                     <textarea id="mensaje" name="mensaje" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Escribe tu mensaje"></textarea>
+                    <p id="errorMensaje" class="mt-1 text-sm text-red-500 hidden">
+                        El mensaje es obligatorio (mínimo 10 caracteres).</p>
                 </div>
 
 
@@ -158,6 +160,7 @@
             const errorCorreo = document.getElementById('errorCorreo');
             const errorAsunto = document.getElementById('errorAsunto');
             const errorCaptcha = document.getElementById('errorCaptcha'); // error para reCAPTCHA
+            const errorMensaje = document.getElementById('errorMensaje'); // NUEVO
 
             const modal = document.getElementById('modal');
             const modalNombre = document.getElementById('modalNombre');
@@ -188,6 +191,10 @@
                 return mostrarError(asunto, errorAsunto, asunto.value.trim().length >= 5);
             }
 
+            function validarMensaje() {
+                return mostrarError(mensaje, errorMensaje, mensaje.value.trim().length >= 10);
+            }
+
             // Valida que el usuario haya resuelto el reCAPTCHA de Google.
             // grecaptcha.getResponse() devuelve una cadena vacía si no está marcado.
             function validarCaptcha() {
@@ -206,13 +213,15 @@
             nombre.addEventListener('blur', validarNombre); 
             correo.addEventListener('blur', validarCorreo);
             asunto.addEventListener('blur', validarAsunto);
+            mensaje.addEventListener('blur', validarMensaje);
+            
 
             // Al enviar el formulario se validan los campos y el captcha.
             form.addEventListener('submit', function (event) {
                 event.preventDefault(); // Evita el envío tradicional del formulario.
 
                 // Validaciones de los tres campos requeridos.
-                const validoCampos = validarNombre() & validarCorreo() & validarAsunto();
+                const validoCampos = validarNombre() & validarCorreo() & validarAsunto() & validarMensaje();
 
                 // Validación del reCAPTCHA (casilla "No soy un robot").
                 const validoCaptcha = validarCaptcha();
