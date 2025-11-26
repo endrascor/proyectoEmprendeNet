@@ -84,92 +84,85 @@
 <!-- Autores -->
 <section class="max-w-6xl mx-auto px-6 pb-16">
     <h2 class="text-2xl font-bold mb-6">Autores</h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-
-        <!-- Tarjeta izquierda -->
-        <article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col">
-<div class="w-full h-64 md:h-80 lg:h-[500px] overflow-hidden">
-    <img src="images/foto (2).jpeg" alt="César Valenciano" class="w-full h-full object-cover">
-</div>        
-            <!-- Contenido -->
-            <div class="p-4 flex flex-col">
-                <h3 class="text-2xl font-bold">César Valenciano</h3>
-                <p class="text-xl text-gray-700 mt-2">cesar.valenciano@ejemplo.com</p>
-                <p class="mt-4 text-xl text-gray-700 flex-1">
-                    Estudiante de Ingeniería del Software interesado en el desarrollo web
-                </p>
-
-                <!-- Contenido adicional -->
-                <div id="moreContentLeft" class="hidden mt-4 text-gray-700 text-xl">
-                    <p>
-                        La realidad de los emprendimientos locales: En la era actual, muchos pequeños emprendimientos
-                        enfrentan barreras para acceder a canales de difusión digitales: falta de presupuesto,
-                        conocimientos técnicos limitados y competencia con grandes marcas. Esto reduce su alcance y afecta su crecimiento económico.
-                    </p>
-                    <p class="mt-2">
-                        Cómo lo resolvemos: EmprendeNet ofrece una plataforma gratuita donde los pequeños empresarios
-                        pueden registrar y mostrar sus negocios en línea. Así los usuarios pueden descubrir fácilmente emprendimientos locales y apoyar el consumo en su comunidad.
-                    </p>
-                </div>
-            </div>
-            <div class="mt-6 text-center">
-                    <button id="seeMoreBtnLeft"
-                        class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 transition">
-                        Ver más
-                    </button>
-                </div>
-        </article>
-
-        <!-- Tarjeta derecha -->
-        <article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col">
-<div class="w-full h-64 md:h-80 lg:h-[500px] overflow-hidden">
-    <img src="images/foto (1).jpg" alt="Dilan Sanchez" class="w-full h-full object-cover">
-</div>
-            <!-- Contenido -->
-            <div class="p-4 flex flex-col">
-                <h3 class="text-2xl font-bold">Dilan Sánchez</h3>
-                <p class="text-xl text-gray-700 mt-2">DilanSanchez@ejemplo.com</p>
-                <p class="mt-4 text-xl text-gray-700 flex-1">
-                    Estudiante de Ingeniería del Software interesado en el desarrollo web
-                </p>
-
-                <!-- Contenido adicional -->
-                <div id="moreContentRight" class="hidden mt-4 text-gray-700 text-xl">
-                    <p>
-                        Contenido adicional de la tarjeta derecha. Aquí puedes poner la información que quieras.
-                    </p>
-                </div>
-            </div>
-                            <div class="mt-6 text-center">
-                    <button id="seeMoreBtnRight"
-                        class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 transition">
-                        Ver más
-                    </button>
-                </div>
-        </article>
-
+    <div id="autoresContainer" class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        <!-- Aquí se generarán las tarjetas -->
     </div>
 </section>
 
 <!-- Script genérico para toggles -->
 <script>
-    const toggleSections = [
-        { btn: 'seeMoreBtnLeft', content: 'moreContentLeft' },
-        { btn: 'seeMoreBtnRight', content: 'moreContentRight' }
-    ];
+async function cargarAutores() {
+    const response = await fetch("json/autores.json");
+    const autores = await response.json();
+    return autores;
+}
 
-    toggleSections.forEach(item => {
-        const btn = document.getElementById(item.btn);
-        const section = document.getElementById(item.content);
-        if (btn && section) {
-            btn.addEventListener('click', () => {
-                const hidden = section.classList.toggle('hidden');
-                btn.textContent = hidden ? 'Ver más' : 'Leer menos';
-            });
-        }
+function crearTarjeta(autor) {
+    const article = document.createElement('article');
+    article.className = "bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col";
+
+    // Imagen
+    const divImg = document.createElement('div');
+    divImg.className = "w-full h-64 md:h-80 lg:h-[500px] overflow-hidden";
+    const img = document.createElement('img');
+    img.src = autor.foto;
+    img.alt = autor.nombre;
+    img.className = "w-full h-full object-cover";
+    divImg.appendChild(img);
+    article.appendChild(divImg);
+
+    // Contenido
+    const divContent = document.createElement('div');
+    divContent.className = "p-4 flex flex-col";
+    divContent.innerHTML = `
+        <h3 class="text-2xl font-bold">${autor.nombre}</h3>
+        <p class="text-xl text-gray-700 mt-2">${autor.email}</p>
+        <p class="mt-4 text-xl text-gray-700 flex-1">${autor.descripcion}</p>
+    `;
+
+    // Contenido extra
+    const divExtra = document.createElement('div');
+    divExtra.id = `moreContent${autor.id}`;
+    divExtra.className = "hidden mt-4 text-gray-700 text-xl";
+    autor.contenidoExtra.forEach(p => {
+        const pElem = document.createElement('p');
+        pElem.textContent = p;
+        divExtra.appendChild(pElem);
     });
+    divContent.appendChild(divExtra);
+
+    // Botón
+    const divBtn = document.createElement('div');
+    divBtn.className = "mt-6 text-center";
+    const btn = document.createElement('button');
+    btn.id = `seeMoreBtn${autor.id}`;
+    btn.className = "w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 transition";
+    btn.textContent = "Ver más";
+    divBtn.appendChild(btn);
+
+    divContent.appendChild(divBtn);
+    article.appendChild(divContent);
+
+    // Toggle
+    btn.addEventListener('click', () => {
+        const hidden = divExtra.classList.toggle('hidden');
+        btn.textContent = hidden ? 'Leer más' : 'Leer menos';
+    });
+
+    return article;
+}
+
+async function mostrarAutores() {
+    const autores = await cargarAutores();
+    const container = document.getElementById('autoresContainer');
+    autores.forEach(autor => {
+        container.appendChild(crearTarjeta(autor));
+    });
+}
+
+mostrarAutores();
 </script>
+
 
 
         </section>

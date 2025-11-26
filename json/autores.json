@@ -1,0 +1,23 @@
+[
+{
+    "id": 1,
+    "nombre": "César Valenciano",
+    "email": "cesar.valenciano@ejemplo.com",
+    "foto": "images/foto (2).jpeg",
+    "descripcion": "Estudiante de Ingeniería del Software interesado en el desarrollo web",
+    "contenidoExtra": [
+    "La realidad de los emprendimientos locales: En la era actual, muchos pequeños emprendimientos enfrentan barreras para acceder a canales de difusión digitales...",
+    "Cómo lo resolvemos: EmprendeNet ofrece una plataforma gratuita donde los pequeños empresarios pueden registrar y mostrar sus negocios en línea..."
+    ]
+},
+{
+    "id": 2,
+    "nombre": "Dilan Sánchez",
+    "email": "DilanSanchez@ejemplo.com",
+    "foto": "images/foto (1).jpg",
+    "descripcion": "Estudiante de Ingeniería del Software interesado en el desarrollo web",
+    "contenidoExtra": [
+    "Contenido adicional de la tarjeta derecha. Aquí puedes poner la información que quieras."
+    ]
+}
+]
