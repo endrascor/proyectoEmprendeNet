@@ -96,7 +96,7 @@
         </p>
     </div>
     <div class="mt-6 text-center">
-        <button class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500">Ver más</button>
+        <button id="seeMoreBtn1" class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500">Ver más</button>
     </div>
 </article>
 
@@ -113,22 +113,47 @@
         </p>
     </div>
     <div class="mt-6 text-center">
-        <button class=" w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 ">Ver más</button>
+        <button id="seeMoreBtn2" class=" w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 ">Ver más</button>
     </div>
 </article>
             </div>
 
+            <div id="moreContent1" class="text-gray-700 hidden">
+    <div class="mt-8 bg-[#729fa3]/10 rounded-lg shadow p-6">
+        <h3 class="font-bold text-2xl text-center">La realidad de los emprendimientos locales</h3>
+        <p class="text-xl mt-4 text-center">Contenido de la sección 1...</p>
+    </div>
+</div>
+        <div id="moreContent2" class="text-gray-700 hidden">
+    <div class="mt-8 bg-[#729fa3]/10 rounded-lg shadow p-6">
+        <h3 class="font-bold text-2xl text-center">Cómo lo resolvemos</h3>
+        <p class="text-xl mt-4 text-center text-gray-600">Contenido de la sección 2...</p>
+    </div>
+</div>
+
                 <script>
       // Toggle para sección "Ver más" 
         (function(){
-        const btn = document.getElementById('seeMoreBtn');
-        const more = document.getElementById('moreContent');
-        if(!btn || !more) return;
-        btn.addEventListener('click', ()=>{
-        const hidden = more.classList.toggle('hidden');
-        btn.textContent = hidden ? 'Leer más' : 'Leer menos';
+    // Sección 1
+    const btn1 = document.getElementById('seeMoreBtn1');
+    const section1 = document.getElementById('moreContent1');
+    if(btn1 && section1){
+        btn1.addEventListener('click', ()=>{
+            const hidden = section1.classList.toggle('hidden');
+            btn1.textContent = hidden ? 'Leer más sección 1' : 'Leer menos sección 1';
         });
-        })();
+    }
+
+    // Sección 2
+    const btn2 = document.getElementById('seeMoreBtn2');
+    const section2 = document.getElementById('moreContent2');
+    if(btn2 && section2){
+        btn2.addEventListener('click', ()=>{
+            const hidden = section2.classList.toggle('hidden');
+            btn2.textContent = hidden ? 'Leer más sección 2' : 'Leer menos sección 2';
+        });
+    }
+})();
     </script>
         </section>
 
