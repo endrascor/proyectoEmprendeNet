@@ -165,21 +165,36 @@
           <p class="text-xl mt-4 text-center text-gray-600">EmprendeNet ofrece una plataforma gratuita donde los pequeños empresarios pueden registrar y mostrar sus negocios en línea. <br>Así los usuarios pueden descubrir fácilmente empredimientos locales y apoyar el consumo en su comunidad.</p>     
           </div>
           </div>
-        <div class="text-center mt-8">
-          <button id="readMoreBtn" class="px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500 ">Leer más</button>
+       <div class="text-center mt-8">
+          <button id="readMoreBtn" class="relative overflow-hidden px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500 ">
+            <span class="relative z-10">Leer más</span>
+            <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
+          </button>
         </div>
     </section>
 
     <script>
-      // Toggle para sección "Leer más" 
+      // Toggle para sección "Leer más" y brillo animado
       (function(){
         const btn = document.getElementById('readMoreBtn');
         const more = document.getElementById('moreContent');
         if(!btn || !more) return;
         btn.addEventListener('click', ()=>{
           const hidden = more.classList.toggle('hidden');
-          btn.textContent = hidden ? 'Leer más' : 'Leer menos';
+          btn.querySelector('span').textContent = hidden ? 'Leer más' : 'Leer menos';
         });
+        // Brillo animado
+        const styleId = 'shine-bar-keyframes';
+        if (!document.getElementById(styleId)) {
+          const style = document.createElement('style');
+          style.id = styleId;
+          style.textContent = `@keyframes shine-bar-move { 0% { left: -40%; } 100% { left: 110%; } }`;
+          document.head.appendChild(style);
+        }
+        const shineBar = btn.querySelector('.shine-bar');
+        if (shineBar) {
+          shineBar.style.animation = 'shine-bar-move 2.1s linear infinite';
+        }
       })();
     </script>
 
