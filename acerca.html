@@ -72,88 +72,106 @@
 
 <script src="js/script.js"></script>
 
-    <!-- Título -->
-    <section class="max-w-6xl mx-auto text-left py-12 px-6">
-        <h1 class="text-4xl md:text-4xl font-bold">Acerca de nosotros</h1>
-        <p class="text-gray-500 mt-4 text-2xl">Este proyecto fue desarrollado como actividad de la materia Diseño de Aplicaciones Web por <br>estudiantes de la Carrera de Ingeniería del Software.</p>
-    </section>
+<!-- Título -->
+<section class="max-w-6xl mx-auto text-left py-12 px-6">
+    <h1 class="text-4xl md:text-4xl font-bold">Acerca de nosotros</h1>
+    <p class="text-gray-500 mt-4 text-2xl">
+        Este proyecto fue desarrollado como actividad de la materia Diseño de Aplicaciones Web por <br>
+        estudiantes de la Carrera de Ingeniería del Software.
+    </p>
+</section>
 
-        <!-- Autores -->
-        <section class="max-w-6xl mx-auto px-6 pb-16">
-            <h2 class="text-2xl font-bold mb-6">Autores</h2>
+<!-- Autores -->
+<section class="max-w-6xl mx-auto px-6 pb-16">
+    <h2 class="text-2xl font-bold mb-6">Autores</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-stretch"> 
-<!-- Tarjeta 1 -->
-<article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col h-full">
-    <div class="w-full h-[500px] overflow-hidden">
-        <img src="images/foto (2).jpeg" alt="César Valenciano" class="w-full h-full object-cover">
-    </div>
-    <div class="p-4">
-        <h3 class="text-2xl font-bold">César Valenciano</h3>
-        <p class="text-xl text-gray-600 mt-2">cesar.valenciano@ejemplo.com</p>
-        <p class="mt-4 text-xl text-gray-700">
-            Estudiante de Ingeniería del Software interesado en el desarrollo web
-        </p>
-    </div>
-    <div id="moreContent1" class="text-gray-700 hidden">
-    <div class="mt-8 bg-[#729fa3]/10 rounded-lg shadow p-6">
-        <h3 class="font-bold text-2xl text-center">La realidad de los emprendimientos locales</h3>
-        <p class="text-xl mt-4 text-center">Contenido de la sección 1...</p>
-    </div>
-</div>
-    <div class="mt-6 text-center">
-        <button id="seeMoreBtn1" class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500">Ver más</button>
-    </div>
-</article>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
 
-<!-- Tarjeta 2 -->
-<article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col h-full">
-    <div class="w-full h-[500px] overflow-hidden">
-        <img src="images/foto (1).jpg" alt="Dilan Sánchez" class="w-full h-full object-cover">
-    </div>
-    <div class="p-4">
-        <h3 class="text-2xl font-bold">Dilan Sánchez</h3>
-        <p class="text-xl text-gray-600 mt-2">DilanSanchez@ejemplo.com</p>
-        <p class="mt-4 text-xl text-gray-700">
-            Estudiante de Ingeniería del Software interesado en el desarrollo web
-        </p>
-    </div>
-            <div id="moreContent2" class="text-gray-700 hidden">
-    <div class="mt-8 bg-[#729fa3]/10 rounded-lg shadow p-6">
-        <h3 class="font-bold text-2xl text-center">Cómo lo resolvemos</h3>
-        <p class="text-xl mt-4 text-center text-gray-600">Contenido de la sección 2...</p>
-    </div>
-</div>
-    <div class="mt-6 text-center">
-        <button id="seeMoreBtn2" class=" w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 ">Ver más</button>
-    </div>
-</article>
+        <!-- Tarjeta izquierda -->
+        <article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col">
+<div class="w-full h-64 md:h-80 lg:h-[500px] overflow-hidden">
+    <img src="images/foto (2).jpeg" alt="César Valenciano" class="w-full h-full object-cover">
+</div>        
+            <!-- Contenido -->
+            <div class="p-4 flex flex-col">
+                <h3 class="text-2xl font-bold">César Valenciano</h3>
+                <p class="text-xl text-gray-700 mt-2">cesar.valenciano@ejemplo.com</p>
+                <p class="mt-4 text-xl text-gray-700 flex-1">
+                    Estudiante de Ingeniería del Software interesado en el desarrollo web
+                </p>
+
+                <!-- Contenido adicional -->
+                <div id="moreContentLeft" class="hidden mt-4 text-gray-700 text-xl">
+                    <p>
+                        La realidad de los emprendimientos locales: En la era actual, muchos pequeños emprendimientos
+                        enfrentan barreras para acceder a canales de difusión digitales: falta de presupuesto,
+                        conocimientos técnicos limitados y competencia con grandes marcas. Esto reduce su alcance y afecta su crecimiento económico.
+                    </p>
+                    <p class="mt-2">
+                        Cómo lo resolvemos: EmprendeNet ofrece una plataforma gratuita donde los pequeños empresarios
+                        pueden registrar y mostrar sus negocios en línea. Así los usuarios pueden descubrir fácilmente emprendimientos locales y apoyar el consumo en su comunidad.
+                    </p>
+                </div>
             </div>
+            <div class="mt-6 text-center">
+                    <button id="seeMoreBtnLeft"
+                        class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 transition">
+                        Ver más
+                    </button>
+                </div>
+        </article>
 
-                <script>
-      // Toggle para sección "Ver más" 
-        (function(){
-    // Sección 1
-    const btn1 = document.getElementById('seeMoreBtn1');
-    const section1 = document.getElementById('moreContent1');
-    if(btn1 && section1){
-        btn1.addEventListener('click', ()=>{
-            const hidden = section1.classList.toggle('hidden');
-            btn1.textContent = hidden ? 'Leer más' : 'Leer menos';
-        });
-    }
+        <!-- Tarjeta derecha -->
+        <article class="bg-[#729fa3]/10 rounded-md shadow overflow-hidden flex flex-col">
+<div class="w-full h-64 md:h-80 lg:h-[500px] overflow-hidden">
+    <img src="images/foto (1).jpg" alt="Dilan Sanchez" class="w-full h-full object-cover">
+</div>
+            <!-- Contenido -->
+            <div class="p-4 flex flex-col">
+                <h3 class="text-2xl font-bold">Dilan Sánchez</h3>
+                <p class="text-xl text-gray-700 mt-2">DilanSanchez@ejemplo.com</p>
+                <p class="mt-4 text-xl text-gray-700 flex-1">
+                    Estudiante de Ingeniería del Software interesado en el desarrollo web
+                </p>
 
-    // Sección 2
-    const btn2 = document.getElementById('seeMoreBtn2');
-    const section2 = document.getElementById('moreContent2');
-    if(btn2 && section2){
-        btn2.addEventListener('click', ()=>{
-            const hidden = section2.classList.toggle('hidden');
-            btn2.textContent = hidden ? 'Leer más' : 'Leer menos';
-        });
-    }
-})();
-    </script>
+                <!-- Contenido adicional -->
+                <div id="moreContentRight" class="hidden mt-4 text-gray-700 text-xl">
+                    <p>
+                        Contenido adicional de la tarjeta derecha. Aquí puedes poner la información que quieras.
+                    </p>
+                </div>
+            </div>
+                            <div class="mt-6 text-center">
+                    <button id="seeMoreBtnRight"
+                        class="w-full px-4 py-2 bg-blue-700 shadow-md text-white font-bold hover:bg-orange-500 transition">
+                        Ver más
+                    </button>
+                </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- Script genérico para toggles -->
+<script>
+    const toggleSections = [
+        { btn: 'seeMoreBtnLeft', content: 'moreContentLeft' },
+        { btn: 'seeMoreBtnRight', content: 'moreContentRight' }
+    ];
+
+    toggleSections.forEach(item => {
+        const btn = document.getElementById(item.btn);
+        const section = document.getElementById(item.content);
+        if (btn && section) {
+            btn.addEventListener('click', () => {
+                const hidden = section.classList.toggle('hidden');
+                btn.textContent = hidden ? 'Ver más' : 'Leer menos';
+            });
+        }
+    });
+</script>
+
+
         </section>
 
         <!-- Footer -->
