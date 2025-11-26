@@ -2,7 +2,7 @@
 {
     "id": 1,
     "nombre": "César Valenciano",
-    "email": "cesar.valenciano@ejemplo.com",
+    "email": "juvalencianosa@est.utn.ac.cr",
     "foto": "images/foto (2).jpeg",
     "descripcion": "Estudiante de Ingeniería del Software interesado en el desarrollo web",
     "contenidoExtra": [
@@ -12,7 +12,7 @@
 {
     "id": 2,
     "nombre": "Dilan Sánchez",
-    "email": "DilanSanchez@ejemplo.com",
+    "email": "dysanchezac@est.utn.ac.cr",
     "foto": "images/foto (1).jpg",
     "descripcion": "Estudiante de Ingeniería del Software interesado en el desarrollo web",
     "contenidoExtra": [
