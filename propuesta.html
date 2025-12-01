@@ -81,9 +81,9 @@
 
     <div class="text-center text-xl">
         <button id="login" class="relative overflow-hidden px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500">
-            <span class="relative z-10">Iniciar Sesión</span>
-            <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
-        </button>
+    <span class="relative z-10">Iniciar Sesión</span>
+    <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
+</button>
     </div>
 </section>
 
@@ -488,6 +488,24 @@ function cancelarRegistro() {
     document.getElementById('registerContent').classList.add('hidden');
     document.getElementById('registerIcon').style.transform = 'rotate(0deg)';
 }
+
+
+// Animación de brillo para el boton inicio de sesion
+(function(){
+  const btn = document.getElementById('login');
+  if (!btn) return;
+  const styleId = 'shine-bar-keyframes';
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `@keyframes shine-bar-move { 0% { left: -40%; } 100% { left: 110%; } }`;
+    document.head.appendChild(style);
+  }
+  const shineBar = btn.querySelector('.shine-bar');
+  if (shineBar) {
+    shineBar.style.animation = 'shine-bar-move 2.1s linear infinite';
+  }
+})();
 
 // Inicializar
 renderEmprendimientos(emprendimientos);
