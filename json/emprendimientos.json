@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "nombre": "Emprendimientos el sol",
+    "descripcion": "Artesanía - Productos hechos a mano",
+    "categoria": "Artesanías",
+    "precio": 15000,
+    "imagen": "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400&h=300&fit=crop"
+  },
+  {
+    "id": 2,
+    "nombre": "Chocolate Artesanal",
+    "descripcion": "Chocolate industrial y artesanal",
+    "categoria": "Alimentos",
+    "precio": 8000,
+    "imagen": "https://images.unsplash.com/photo-1511381939415-e44015466834?w=400&h=300&fit=crop"
+  },
+  {
+    "id": 3,
+    "nombre": "Tela y color",
+    "descripcion": "Textiles artesanales",
+    "categoria": "Telas",
+    "precio": 12000,
+    "imagen": "https://images.unsplash.com/photo-1558769132-cb1aea1f1f57?w=400&h=300&fit=crop"
+  }
+]
