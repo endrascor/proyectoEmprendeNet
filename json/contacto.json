@@ -1,0 +1,23 @@
+{
+  "titulo": "Envíanos un mensaje",
+  "nombre_label": "Nombre",
+  "nombre_placeholder": "Tu nombre completo",
+  "error_nombre": "El nombre es obligatorio (mínimo 3 caracteres).",
+  "correo_label": "Correo electrónico",
+  "correo_placeholder": "tucorreo@ejemplo.com",
+  "error_correo": "Ingresa un correo electrónico válido.",
+  "asunto_label": "Asunto",
+  "asunto_placeholder": "Motivo de tu mensaje",
+  "error_asunto": "El asunto es obligatorio (mínimo 5 caracteres).",
+  "mensaje_label": "Mensaje",
+  "mensaje_placeholder": "Escribe tu mensaje",
+  "error_mensaje": "El mensaje es obligatorio (mínimo 10 caracteres).",
+  "boton": "Enviar",
+  "form_action": "https://formspree.io/f/xnnyrbjk",
+  "recaptcha_sitekey": "6LfDRhYsAAAAAIv9G3jc4KMtzX9POZdxq8X6d0Ti",
+  "error_captcha": "Por favor, marca la casilla \"No soy un robot\".",
+  "mapa_titulo": "Encuéntranos",
+  "mapa_desc": "Explora el mapa para ubicar nuestra zona de operación.",
+  "mapa_embed": "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d245.59930539476366!2d-84.2238369!3d9.9681213!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2scr!4v1761455225477!5m2!1sen!2scr"
+}
+
