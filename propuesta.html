@@ -79,15 +79,21 @@
         <p class="text-gray-500 mt-4 text-2xl">Descubre y registra emprendimientos de tu comunidad</p>
     </div>
 
+    <!-----Boton login------>
+
     <div class="text-center text-xl">
-        <button id="login" class="relative overflow-hidden px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500">
-    <span class="relative z-10">Iniciar Sesión</span>
-    <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
-</button>
+        <div id="userSection">
+            <button id="login" class="relative overflow-hidden px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500">
+                <span class="relative z-10">Iniciar Sesión</span>
+                <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
+            </button>
+            <div id="userLogged" class="hidden flex items-center gap-4 justify-center">
+                <span class="font-semibold text-gray-700">Bienvenido, <span id="usernameDisplay" class="text-orange-600"></span></span>
+                <button onclick="cerrarSesion()" class="px-4 py-2 bg-red-500 text-white font-bold rounded-full hover:bg-red-600 transition">Cerrar Sesión</button>
+            </div>
+        </div>
     </div>
 </section>
-
-
 
 <!-- Contenido Principal -->
 <div class="max-w-7xl mx-auto px-4 py-8">
@@ -251,6 +257,66 @@
     </div>
 </div>
 
+<!-- Modal de Login -->
+<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+    <button onclick="cerrarLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Iniciar Sesión</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
+        <input type="text" id="loginUsername" placeholder="Ej: juanperez" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="Tu contraseña" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
+      </div>
+      <button onclick="iniciarSesion()" class="w-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+        Entrar
+      </button>
+      <div class="text-center mt-4">
+        <p class="text-sm text-gray-600">¿No tienes cuenta? <button onclick="mostrarRegistro()" class="text-orange-500 font-semibold hover:underline">Regístrate aquí</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Registro -->
+<div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+    <button onclick="cerrarRegistroUsuario()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Crear Cuenta</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
+        <input type="text" id="registerUsername" placeholder="Ej: juanperez" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+        <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Confirmar Contraseña</label>
+        <input type="password" id="registerPasswordConfirm" placeholder="Repite tu contraseña" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
+      </div>
+      <button onclick="registrarUsuario()" class="w-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+        Crear Cuenta
+      </button>
+      <div class="text-center mt-4">
+        <p class="text-sm text-gray-600">¿Ya tienes cuenta? <button onclick="mostrarLogin()" class="text-orange-500 font-semibold hover:underline">Inicia sesión</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
  <!-- Footer-->
     <footer class="bg-gradient-to-r from-orange-300 to-yellow-300 w-full mt-8 shadow-md">
       <div class="max-w-7xl mx-auto px-6">
@@ -305,7 +371,7 @@ function toggleFilters() {
         icon.style.transform = 'rotate(180deg)';
     }
 }
-
+//La sesión activa (quién está logueado ahora) se guarda en sessionStorage
 function toggleRegister() {
     var content = document.getElementById('registerContent');
     var icon = document.getElementById('registerIcon');
@@ -446,6 +512,13 @@ function updatePreview(index) {
 }
 
 function registrarEmprendimiento() {
+    var usuario = sessionStorage.getItem('usuarioActual');
+    if (!usuario) {
+        alert(' Debes iniciar sesión para registrar un emprendimiento');
+        document.getElementById('loginModal').classList.remove('hidden');
+        return;
+    }
+
     var nombre = document.getElementById('nombreInput').value;
     var categoria = document.getElementById('categoriaSelect').value;
     var ubicacion = document.getElementById('ubicacionInput').value;
@@ -506,6 +579,107 @@ function cancelarRegistro() {
     shineBar.style.animation = 'shine-bar-move 2.1s linear infinite';
   }
 })();
+
+// Enlazar botón Iniciar Sesión para mostrar el modal
+document.getElementById('login').addEventListener('click', function() {
+  document.getElementById('loginModal').classList.remove('hidden');
+});
+
+// Funciones de login y registro
+function mostrarLogin() {
+  cerrarRegistroUsuario();
+  document.getElementById('loginModal').classList.remove('hidden');
+}
+function cerrarLogin() {
+  document.getElementById('loginModal').classList.add('hidden');
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+}
+function mostrarRegistro() {
+  cerrarLogin();
+  document.getElementById('registerModal').classList.remove('hidden');
+}
+function cerrarRegistroUsuario() {
+  document.getElementById('registerModal').classList.add('hidden');
+  document.getElementById('registerUsername').value = '';
+  document.getElementById('registerPassword').value = '';
+  document.getElementById('registerPasswordConfirm').value = '';
+}
+function registrarUsuario() {
+  var username = document.getElementById('registerUsername').value.trim();
+  var password = document.getElementById('registerPassword').value;
+  var passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+  if (!username || username.length < 3) {
+    alert('El nombre de usuario debe tener al menos 3 caracteres');
+    return;
+  }
+  if (password.length < 6) {
+    alert('La contraseña debe tener al menos 6 caracteres');
+    return;
+  }
+  if (password !== passwordConfirm) {
+    alert('Las contraseñas no coinciden');
+    return;
+  }
+  var usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+  var existe = usuarios.some(function(u) { return u.username === username; });
+  if (existe) {
+    alert('Este nombre de usuario ya está en uso');
+    return;
+  }
+  usuarios.push({ username: username, password: password });
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  alert(' Cuenta creada exitosamente. Ahora puedes iniciar sesión.');
+  cerrarRegistroUsuario();
+  mostrarLogin();
+}
+function iniciarSesion() {
+  var username = document.getElementById('loginUsername').value.trim();
+  var password = document.getElementById('loginPassword').value;
+  if (!username || !password) {
+    alert('Por favor completa todos los campos');
+    return;
+  }
+  var usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+  var usuario = usuarios.find(function(u) { 
+    return u.username === username && u.password === password; 
+  });
+  if (usuario) {
+    sessionStorage.setItem('usuarioActual', username);
+    actualizarUIUsuario();
+    alert('¡Bienvenido ' + username + '!');
+    cerrarLogin();
+  } else {
+    alert('Usuario o contraseña incorrectos');
+  }
+}
+
+function cerrarSesion() {
+  sessionStorage.removeItem('usuarioActual');
+  actualizarUIUsuario();
+  alert('Sesión cerrada');
+}
+
+function actualizarUIUsuario() {
+  var usuario = sessionStorage.getItem('usuarioActual');
+  var loginBtn = document.getElementById('login');
+  var userLogged = document.getElementById('userLogged');
+  var usernameDisplay = document.getElementById('usernameDisplay');
+  
+  if (usuario) {
+    loginBtn.classList.add('hidden');
+    userLogged.classList.remove('hidden');
+    usernameDisplay.textContent = usuario;
+  } else {
+    loginBtn.classList.remove('hidden');
+    userLogged.classList.add('hidden');
+  }
+}
+
+// Verificar sesión al cargar la página
+window.addEventListener('DOMContentLoaded', function() {
+  actualizarUIUsuario();
+});
 
 // Inicializar
 renderEmprendimientos(emprendimientos);
