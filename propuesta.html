@@ -339,7 +339,7 @@ var emprendimientos = [];
 // Cargar emprendimientos desde JSON
 async function cargarEmprendimientos() {
     try {
-        const response = await fetch('json/emprendimientos.json');
+        const response = await fetch("json/emprendimientos.json");
         emprendimientos = await response.json();
         renderEmprendimientos(emprendimientos);
         updatePriceSlider();
