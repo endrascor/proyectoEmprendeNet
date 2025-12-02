@@ -5,7 +5,7 @@
     "descripcion": "Artesanía - Productos hechos a mano",
     "categoria": "Artesanías",
     "precio": 15000,
-    "imagen": "images/artesanias-sol.png"
+    "imagen": "images/artesanias-sol.PNG"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "descripcion": "Chocolate industrial y artesanal",
     "categoria": "Alimentos",
     "precio": 8000,
-    "imagen": "images/choco-artesanal.png"
+    "imagen": "images/choco-artesanal.PNG"
   },
   {
     "id": 3,
@@ -21,6 +21,6 @@
     "descripcion": "Textiles artesanales",
     "categoria": "Telas",
     "precio": 12000,
-    "imagen": "images/tela-artesanal.png"
+    "imagen": "images/tela-artesanal.PNG"
   }
 ]
