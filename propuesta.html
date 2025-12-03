@@ -73,23 +73,25 @@
 <script src="js/script.js"></script>
 
 <!-- Título -->
-<section id="sessionButtons" class="flex items-center justify-around px-6">
-    <div class="text-left py-12">
-        <h2 class="text-4xl md:text-4xl font-bold">Emprendimientos Locales</h2>
-        <p class="text-gray-500 mt-4 text-2xl">Descubre y registra emprendimientos de tu comunidad</p>
-    </div>
+<section id="sessionButtons" class="max-w-6xl mx-auto px-6 py-8">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <!-- Título -->
+        <div class="text-center lg:text-left">
+            <h2 class="text-3xl md:text-4xl font-bold">Emprendimientos Locales</h2>
+            <p class="text-gray-500 mt-2 text-lg md:text-xl">Descubre y registra emprendimientos de tu comunidad</p>
+        </div>
 
-    <!-----Boton login------>
-
-    <div class="text-center text-xl">
-        <div id="userSection">
-            <button id="login" class="relative overflow-hidden px-4 py-2 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500">
-                <span class="relative z-10">Iniciar Sesión</span>
-                <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
-            </button>
-            <div id="userLogged" class="hidden flex items-center gap-4 justify-center">
-                <span class="font-semibold text-gray-700">Bienvenido, <span id="usernameDisplay" class="text-orange-600"></span></span>
-                <button onclick="cerrarSesion()" class="px-4 py-2 bg-red-500 text-white font-bold rounded-full hover:bg-red-600 transition">Cerrar Sesión</button>
+        <!-- Botón login -->
+        <div class="text-center lg:text-right">
+            <div id="userSection">
+                <button id="login" class="relative overflow-hidden px-6 py-3 bg-blue-700 shadow-md text-white font-bold rounded-full hover:bg-orange-500 text-base md:text-lg">
+                    <span class="relative z-10">Iniciar Sesión</span>
+                    <div class="shine-bar pointer-events-none absolute top-0 left-[-40%] h-full w-1/3 bg-white/40 blur-sm rotate-12 z-0"></div>
+                </button>
+                <div id="userLogged" class="hidden flex-col lg:flex-row items-center gap-3 justify-center">
+                    <span class="font-semibold text-gray-700 text-sm md:text-base">Bienvenido, <span id="usernameDisplay" class="text-orange-600"></span></span>
+                    <button onclick="cerrarSesion()" class="px-4 py-2 bg-red-500 text-white font-bold rounded-full hover:bg-red-600 transition text-sm md:text-base">Cerrar Sesión</button>
+                </div>
             </div>
         </div>
     </div>
@@ -104,7 +106,7 @@
             <div class="bg-white rounded-2xl shadow-xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Buscar/Filtrar</h2>
-                    <button onclick="toggleFilters()" class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition">
+                    <button onclick="toggleFilters()" class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition" aria-label="Mostrar u ocultar filtros" title="Mostrar u ocultar filtros">
                         <svg id="filterIcon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -169,7 +171,7 @@
             <div class="bg-white rounded-2xl shadow-xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Registrar emprendimiento</h2>
-                    <button onclick="toggleRegister()" class="p-2 hover:bg-gray-100 rounded-full transition">
+                    <button onclick="toggleRegister()" class="p-2 hover:bg-gray-100 rounded-full transition" aria-label="Mostrar u ocultar formulario de registro" title="Mostrar u ocultar formulario">
                         <svg id="registerIcon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -178,13 +180,13 @@
 
                 <div id="registerContent" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
-                        <input type="text" id="nombreInput" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition">
+                        <label for="nombreInput" class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
+                        <input type="text" id="nombreInput" placeholder="Nombre del emprendimiento" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
-                        <select id="categoriaSelect" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition font-semibold cursor-pointer">
+                        <label for="categoriaSelect" class="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
+                        <select id="categoriaSelect" title="Selecciona una categoría" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition font-semibold cursor-pointer">
                             <option>Todos</option>
                             <option>Alimentos</option>
                             <option>Telas</option>
@@ -199,8 +201,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
-                        <input type="url" id="ubicacionInput" value="https://" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition">
+                        <label for="ubicacionInput" class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
+                        <input type="url" id="ubicacionInput" value="https://" placeholder="https://ejemplo.com" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition">
                     </div>
 
                     <div>
@@ -234,8 +236,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
-                        <textarea id="descripcionInput" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition resize-none"></textarea>
+                        <label for="descripcionInput" class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                        <textarea id="descripcionInput" rows="4" placeholder="Describe tu emprendimiento" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:outline-none transition resize-none"></textarea>
                     </div>
 
                     <div class="flex gap-4">
@@ -255,7 +257,8 @@
 </div>
 
 <!-- Modal de Login -->
-<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 p-4">
+  <div class="flex items-center justify-center min-h-full">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
     <button onclick="cerrarLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,11 +268,11 @@
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Iniciar Sesión</h2>
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
+        <label for="loginUsername" class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
         <input type="text" id="loginUsername" placeholder="Ej: juanperez" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
       </div>
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+        <label for="loginPassword" class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
         <input type="password" id="loginPassword" placeholder="Tu contraseña" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
       </div>
       <button onclick="iniciarSesion()" class="w-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
@@ -280,10 +283,12 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
 
 <!-- Modal de Registro -->
-<div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 p-4">
+  <div class="flex items-center justify-center min-h-full">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
     <button onclick="cerrarRegistroUsuario()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -293,15 +298,15 @@
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Crear Cuenta</h2>
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
+        <label for="registerUsername" class="block text-sm font-semibold text-gray-700 mb-2">Nombre de Usuario</label>
         <input type="text" id="registerUsername" placeholder="Ej: juanperez" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
       </div>
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+        <label for="registerPassword" class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
         <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
       </div>
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Confirmar Contraseña</label>
+        <label for="registerPasswordConfirm" class="block text-sm font-semibold text-gray-700 mb-2">Confirmar Contraseña</label>
         <input type="password" id="registerPasswordConfirm" placeholder="Repite tu contraseña" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-400 focus:outline-none transition">
       </div>
       <button onclick="registrarUsuario()" class="w-full bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
@@ -311,6 +316,7 @@
         <p class="text-sm text-gray-600">¿Ya tienes cuenta? <button onclick="mostrarLogin()" class="text-orange-500 font-semibold hover:underline">Inicia sesión</button></p>
       </div>
     </div>
+  </div>
   </div>
 </div>
 
