@@ -319,16 +319,9 @@
       <div class="max-w-7xl mx-auto px-6">
         <div class="py-6 text-center font-semibold">© 2025 EmprendeNet | Todos los derechos reservados</div>
       </div>
-z    </footer>
+    </footer>
 
 <script>
-// Menú móvil hamburguesa
-document.getElementById('menu-toggle').addEventListener('click', function() {
-    var nav = document.getElementById('main-nav');
-    nav.classList.toggle('hidden');
-    nav.classList.toggle('flex');
-});
-
 // Variables globales
 var selectedCategory = 'Todos';
 var emprendimientos = [];
@@ -467,10 +460,26 @@ function renderEmprendimientos(emps) {
     var grid = document.getElementById('emprendimientosGrid');
     var html = '';
     
+    // Mapeo de categorías a colores (igual que los botones de filtro)
+    var coloresCategoria = {
+        'Todos': 'bg-yellow-400',
+        'Alimentos': 'bg-red-500',
+        'Telas': 'bg-blue-500',
+        'Artesanías': 'bg-orange-500',
+        'Ropa': 'bg-gray-300',
+        'Flores': 'bg-purple-400',
+        'Belleza': 'bg-pink-500',
+        'Ecológico': 'bg-green-400',
+        'Batidos': 'bg-cyan-400',
+        'Servicios': 'bg-gray-400'
+    };
+    
     for (var i = 0; i < emps.length; i++) {
         var emp = emps[i];
+        var colorCategoria = coloresCategoria[emp.categoria] || 'bg-purple-600';
+        
         html += '<div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1 flex flex-col h-full">';
-        html += '<div class="bg-purple-600 text-white text-center py-3 font-bold">Emprendimientos</div>';
+        html += '<div class="' + colorCategoria + ' text-white text-center py-3 font-bold">' + emp.categoria + '</div>';
         html += '<img src="' + emp.imagen + '" alt="' + emp.nombre + '" class="w-full h-48 object-cover">';
         html += '<div class="p-6 flex flex-col flex-grow">';
         html += '<h3 class="text-xl font-bold text-gray-800 mb-2">' + emp.nombre + '</h3>';
