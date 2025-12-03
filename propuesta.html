@@ -7,6 +7,13 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- compatible with mobile browsers -->
+    <style>
+        html {
+            text-size-adjust: 100%;
+        }
+    </style>
 
     <script>
         tailwind.config = {
@@ -149,8 +156,10 @@
                                     <div class="relative h-1 bg-red-500 rounded-full">
                                         <div id="priceRange" class="absolute h-1 bg-red-500 rounded-full" style="left: 0%; right: 0%;"></div>
                                     </div>
-                                    <input type="range" id="minPrice" min="1000" max="30000" value="1000" step="100" oninput="updatePriceSlider()" class="absolute w-full h-1 bg-transparent appearance-none pointer-events-none" style="top: 2px;">
-                                    <input type="range" id="maxPrice" min="1000" max="30000" value="30000" step="100" oninput="updatePriceSlider()" class="absolute w-full h-1 bg-transparent appearance-none pointer-events-none" style="top: 2px;">
+                                    <label for="minPrice" class="sr-only">Precio mínimo</label>
+                                    <input type="range" id="minPrice" min="1000" max="30000" value="1000" step="100" oninput="updatePriceSlider()" class="absolute w-full h-1 bg-transparent appearance-none pointer-events-none" style="top: 2px;" aria-label="Precio mínimo" title="Precio mínimo">
+                                    <label for="maxPrice" class="sr-only">Precio máximo</label>
+                                    <input type="range" id="maxPrice" min="1000" max="30000" value="30000" step="100" oninput="updatePriceSlider()" class="absolute w-full h-1 bg-transparent appearance-none pointer-events-none" style="top: 2px;" aria-label="Precio máximo" title="Precio máximo">
                                 </div>
                             </div>
                             <!-- Mostrar rango de precio -->
@@ -260,7 +269,7 @@
 <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 p-4">
   <div class="flex items-center justify-center min-h-full">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
-    <button onclick="cerrarLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+    <button onclick="cerrarLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" aria-label="Cerrar modal de inicio de sesión" title="Cerrar">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
@@ -290,7 +299,7 @@
 <div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 p-4">
   <div class="flex items-center justify-center min-h-full">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
-    <button onclick="cerrarRegistroUsuario()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+    <button onclick="cerrarRegistroUsuario()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" aria-label="Cerrar modal de registro" title="Cerrar">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
