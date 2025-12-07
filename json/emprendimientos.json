@@ -35,7 +35,7 @@
     "descripcion": "Chocolate industrial y artesanal",
     "categoria": "Alimentos",
     "precio": 8000,
-    "imagen": "images/choco-artesanal1.png",
+    "imagen": "images/choco-artesanal.png",
     "imagenes": [
       "images/choco-artesanal1.png",
       "images/choco-artesanal2.png",
