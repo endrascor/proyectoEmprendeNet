@@ -5,7 +5,29 @@
     "descripcion": "Artesanía - Productos hechos a mano",
     "categoria": "Artesanías",
     "precio": 15000,
-    "imagen": "images/artesanias-sol.PNG"
+    "imagen": "images/artesanias-sol.PNG",
+    "imagenes": [
+      "images/artesanias-sol.PNG",
+      "images/artesanias-sol.PNG",
+      "images/artesanias-sol.PNG"
+    ],
+    "ubicacion": "San José, Costa Rica",
+    "contacto": "8888-8888",
+    "email": "emprendimientoselsol@email.com",
+    "horario": "Lunes a Viernes: 9:00 AM - 6:00 PM",
+    "descripcionDetallada": "Creamos productos artesanales únicos, elaborados con materiales de alta calidad y técnicas tradicionales. Cada pieza es cuidadosamente diseñada para reflejar la cultura y el arte local.",
+    "caracteristicas": [
+      "Productos 100% hechos a mano",
+      "Materiales naturales y sostenibles",
+      "Diseños únicos y personalizables",
+      "Empaque ecológico incluido"
+    ],
+    "productos": [
+      "Cestas tejidas",
+      "Decoración para el hogar",
+      "Joyería artesanal",
+      "Textiles bordados"
+    ]
   },
   {
     "id": 2,
@@ -13,7 +35,29 @@
     "descripcion": "Chocolate industrial y artesanal",
     "categoria": "Alimentos",
     "precio": 8000,
-    "imagen": "images/choco-artesanal.PNG"
+    "imagen": "images/choco-artesanal.PNG",
+    "imagenes": [
+      "images/choco-artesanal.PNG",
+      "images/choco-artesanal.PNG",
+      "images/choco-artesanal.PNG"
+    ],
+    "ubicacion": "Cartago, Costa Rica",
+    "contacto": "7777-7777",
+    "email": "chocolateartesanal@email.com",
+    "horario": "Martes a Sábado: 10:00 AM - 7:00 PM",
+    "descripcionDetallada": "Elaboramos chocolates premium con cacao 100% costarricense. Nuestros productos combinan recetas tradicionales con innovación para crear sabores únicos que deleitan el paladar.",
+    "caracteristicas": [
+      "Cacao orgánico nacional",
+      "Sin preservantes artificiales",
+      "Proceso artesanal controlado",
+      "Presentaciones elegantes para regalo"
+    ],
+    "productos": [
+      "Barras de chocolate oscuro",
+      "Trufas gourmet",
+      "Bombones rellenos",
+      "Tabletas con frutos secos"
+    ]
   },
   {
     "id": 3,
@@ -21,6 +65,28 @@
     "descripcion": "Textiles artesanales",
     "categoria": "Telas",
     "precio": 12000,
-    "imagen": "images/tela-artesanal.PNG"
+    "imagen": "images/tela-artesanal.PNG",
+    "imagenes": [
+      "images/tela-artesanal.PNG",
+      "images/tela-artesanal.PNG",
+      "images/tela-artesanal.PNG"
+    ],
+    "ubicacion": "Heredia, Costa Rica",
+    "contacto": "6666-6666",
+    "email": "telaycolor@email.com",
+    "horario": "Lunes a Viernes: 8:00 AM - 5:00 PM",
+    "descripcionDetallada": "Especialistas en textiles artesanales de alta calidad. Trabajamos con técnicas tradicionales de teñido y tejido para crear telas únicas con colores vibrantes y diseños originales.",
+    "caracteristicas": [
+      "Telas 100% algodón",
+      "Tintes naturales y ecológicos",
+      "Diseños exclusivos",
+      "Venta por metro o producto terminado"
+    ],
+    "productos": [
+      "Telas estampadas",
+      "Manteles y servilletas",
+      "Cojines decorativos",
+      "Bolsos de tela"
+    ]
   }
 ]

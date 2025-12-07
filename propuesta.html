@@ -155,16 +155,6 @@
 <!-- Contenedor de notificaciones toast -->
 <div id="toastContainer"></div>
 
-<!-- Spinner de carga -->
-<div id="loadingSpinner" class="hidden fixed inset-0 bg-black bg-opacity-30 z-50">
-    <div class="flex items-center justify-center min-h-full">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
-            <div class="spinner"></div>
-            <p class="text-gray-700 font-semibold">Cargando...</p>
-        </div>
-    </div>
-</div>
-
 <!-- Título -->
 <section id="sessionButtons" class="max-w-6xl mx-auto px-6 py-8">
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -466,7 +456,9 @@
 <script>
 // Variables globales
 var selectedCategory = 'Todos';
-var emprendimientos = [];
+var todosEmprendimientos = [];
+var emprendimientosFiltrados = [];
+var emprendimientos = []; // Mantener por compatibilidad
 
 // Sistema de notificaciones toast
 function showToast(message, type = 'info') {
@@ -489,15 +481,6 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
-// Mostrar/ocultar spinner de carga
-function showLoading() {
-    document.getElementById('loadingSpinner').classList.remove('hidden');
-}
-
-function hideLoading() {
-    document.getElementById('loadingSpinner').classList.add('hidden');
-}
-
 // Animar elemento
 function animateElement(element, animation) {
     element.classList.add(animation);
@@ -507,24 +490,20 @@ function animateElement(element, animation) {
 }
 
 // Cargar emprendimientos desde JSON
-async function cargarEmprendimientos() {
-    showLoading();
-    try {
-        const response = await fetch("json/emprendimientos.json");
-        emprendimientos = await response.json();
-        
-        // Simular pequeño delay para mostrar el spinner
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        renderEmprendimientos(emprendimientos);
-        updatePriceSlider();
-        showToast('Emprendimientos cargados exitosamente', 'success');
-    } catch (error) {
-        console.error('Error al cargar emprendimientos:', error);
-        showToast('Error al cargar emprendimientos', 'error');
-    } finally {
-        hideLoading();
-    }
+function cargarEmprendimientos() {
+    fetch('json/emprendimientos.json')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            todosEmprendimientos = data;
+            emprendimientosFiltrados = data;
+            renderEmprendimientos(emprendimientosFiltrados);
+        })
+        .catch(function(error) {
+            console.error('Error al cargar emprendimientos:', error);
+            showToast('Error al cargar emprendimientos', 'error');
+        });
 }
 
 function toggleFilters() {
@@ -629,8 +608,8 @@ function filterEmprendimientos() {
     var maxPrice = parseInt(document.getElementById('maxPrice').value);
 
     var filtered = [];
-    for (var i = 0; i < emprendimientos.length; i++) {
-        var emp = emprendimientos[i];
+    for (var i = 0; i < todosEmprendimientos.length; i++) {
+        var emp = todosEmprendimientos[i];
         var matchesSearch = emp.nombre.toLowerCase().indexOf(searchTerm) !== -1 || 
                             emp.descripcion.toLowerCase().indexOf(searchTerm) !== -1;
         var matchesCategory = selectedCategory === 'Todos' || emp.categoria === selectedCategory;
@@ -641,6 +620,7 @@ function filterEmprendimientos() {
         }
     }
 
+    emprendimientosFiltrados = filtered;
     renderEmprendimientos(filtered);
 }
 // Renderizar emprendimientos en la cuadrícula
@@ -673,26 +653,11 @@ function renderEmprendimientos(emps) {
         html += '<div class="p-6 flex flex-col flex-grow">';
         html += '<h3 class="text-xl font-bold text-gray-800 mb-2">' + emp.nombre + '</h3>';
         html += '<p class="text-gray-600 mb-4 flex-grow">' + emp.descripcion + '</p>';
-        html += '<button class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 rounded-xl transition shadow-md mt-auto">Ver</button>';
+        html += '<a href="detalle-emprendimiento.html?id=' + emp.id + '" class="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 rounded-xl transition shadow-md mt-auto text-center">Ver más</a>';
         html += '</div></div>';
     }
     
     grid.innerHTML = html;
-}
-// Actualizar vista previa de imágenes
-function updatePreview(index) {
-    var input = document.getElementById('producto' + index);
-    var preview = document.getElementById('preview' + index);
-    var placeholder = document.getElementById('placeholder' + index);
-    
-    if (input.value && input.value.indexOf('http') === 0) {
-        preview.src = input.value;
-        preview.classList.remove('hidden');
-        placeholder.classList.add('hidden');
-    } else {
-        preview.classList.add('hidden');
-        placeholder.classList.remove('hidden');
-    }
 }
 
 function registrarEmprendimiento() {
@@ -712,11 +677,8 @@ function registrarEmprendimiento() {
         showToast('Por favor completa al menos el nombre y la descripción', 'warning');
         return;
     }
-
-    // Mostrar loading
-    showLoading();
     
-    // Simular guardado ( se puede quitar el setTimeout)
+    // Simular guardado (puedes quitar el setTimeout si tienes backend real)
     setTimeout(function() {
         var nuevoEmprendimiento = {
             id: emprendimientos.length + 1,
@@ -730,7 +692,6 @@ function registrarEmprendimiento() {
         emprendimientos.push(nuevoEmprendimiento);
         filterEmprendimientos();
         cancelarRegistro();
-        hideLoading();
         showToast('¡Emprendimiento registrado exitosamente!', 'success');
         
         // Animar botón de registro
@@ -744,12 +705,6 @@ function cancelarRegistro() {
     document.getElementById('categoriaSelect').value = 'Todos';
     document.getElementById('ubicacionInput').value = 'https://';
     document.getElementById('descripcionInput').value = '';
-    document.getElementById('producto1').value = '';
-    document.getElementById('producto2').value = '';
-    document.getElementById('producto3').value = '';
-    updatePreview(1);
-    updatePreview(2);
-    updatePreview(3);
     document.getElementById('registerContent').classList.add('hidden');
     document.getElementById('registerIcon').style.transform = 'rotate(0deg)';
 }
