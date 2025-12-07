@@ -422,6 +422,47 @@
       </div>
     </footer>
 
+<!-- Botón flotante de YouTube -->
+<button onclick="abrirVideoYoutube()" 
+        class="fixed bottom-20 right-6 z-50 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-2xl transition transform hover:scale-110" 
+        style="animation: pulse 2s infinite;"
+        aria-label="Ver video de como emprender"
+        title="Ver video de como emprender">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+</button>
+
+<!-- Modal de Video YouTube -->
+<div id="videoModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-[9999] p-4">
+    <div class="flex items-center justify-center min-h-full">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl p-4 relative">
+            <button onclick="cerrarVideoYoutube()" class="absolute -top-10 right-0 text-white hover:text-gray-300" aria-label="Cerrar video" title="Cerrar">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">🎥 Mirar video: Cómo Emprender</h3>
+            <div class="aspect-video rounded-xl overflow-hidden">
+                <iframe 
+                    id="youtubeIframe"
+                    width="100%" 
+                    height="100%" 
+                    src="" 
+                    title="Tutorial de emprendimiento" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    class="w-full h-full">
+                </iframe>
+            </div>
+            <p class="text-gray-600 mt-4 text-center">
+                Aprende los fundamentos para crear y hacer crecer tu emprendimiento.
+            </p>
+        </div>
+    </div>
+</div>
+
 <script>
 // Variables globales
 var selectedCategory = 'Todos';
@@ -675,7 +716,7 @@ function registrarEmprendimiento() {
     // Mostrar loading
     showLoading();
     
-    // Simular guardado (puedes quitar el setTimeout si tienes backend real)
+    // Simular guardado ( se puede quitar el setTimeout)
     setTimeout(function() {
         var nuevoEmprendimiento = {
             id: emprendimientos.length + 1,
@@ -811,6 +852,8 @@ function cerrarSesion() {
   showToast('Sesión cerrada', 'info');
 }
 
+
+
 function actualizarUIUsuario() {
   var usuario = sessionStorage.getItem('usuarioActual');
   var loginBtn = document.getElementById('login');
@@ -834,6 +877,23 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Inicializar - Cargar emprendimientos desde JSON
 cargarEmprendimientos();
+
+
+// Funciones para el video flotante de YouTube
+function abrirVideoYoutube() {
+  var modal = document.getElementById('videoModal');
+  var iframe = document.getElementById('youtubeIframe');
+  // Aqui url del video de YouTube
+  iframe.src = 'https://www.youtube.com/embed/bL3tCdzBASE?autoplay=-1';
+  modal.classList.remove('hidden');
+}
+
+function cerrarVideoYoutube() {
+  var modal = document.getElementById('videoModal');
+  var iframe = document.getElementById('youtubeIframe');
+  iframe.src = ''; // Detener el video al cerrar
+  modal.classList.add('hidden');
+}
 </script>
 
 </body>
