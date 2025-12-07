@@ -110,9 +110,9 @@
 </header>
 
     <!-- Contenido Principal -->
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <!-- Botón Volver -->
-        <a href="propuesta.html" class="inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold mb-6 transition">
+        <a href="propuesta.html" class="inline-flex items-center text-base sm:text-lg text-orange-600 hover:text-orange-700 font-semibold mb-6 transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -126,8 +126,8 @@
 
         <!-- Loading -->
         <div id="loading" class="text-center py-16">
-            <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-orange-500"></div>
-            <p class="mt-4 text-gray-600 text-lg">Cargando detalles...</p>
+            <div class="inline-block animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-4 border-orange-500"></div>
+            <p class="mt-4 text-gray-600 text-base sm:text-lg">Cargando detalles...</p>
         </div>
 
         <!-- Error -->
@@ -252,11 +252,11 @@
             html += '</div>';
 
             // Contenido principal en grid
-            html += '<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">';
+            html += '<div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 p-6 sm:p-8">';
             
             // Columna izquierda - Carrusel de imágenes
             html += '<div class="slide-in">';
-            html += '<div class="sticky top-24">';
+            html += '<div class="space-y-6 lg:sticky lg:top-24">';
             
             // Carrusel
             var imagenes = emprendimiento.imagenes || [emprendimiento.imagen];
@@ -264,7 +264,7 @@
             html += '<div id="carouselTrack" class="carousel-track">';
             for (var i = 0; i < imagenes.length; i++) {
                 html += '<div class="carousel-slide">';
-                html += '<img src="' + imagenes[i] + '" alt="' + emprendimiento.nombre + ' - Imagen ' + (i + 1) + '" class="w-full h-96 object-cover">';
+                html += '<img src="' + imagenes[i] + '" alt="' + emprendimiento.nombre + ' - Imagen ' + (i + 1) + '" class="w-full h-64 sm:h-80 lg:h-96 object-cover">';
                 html += '</div>';
             }
             html += '</div>';
@@ -288,22 +288,22 @@
             html += '</div>';
             
             // Precio
-            html += '<div class="mt-6 p-6 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-2xl">';
+            html += '<div class="mt-4 sm:mt-6 p-5 sm:p-6 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-2xl">';
             html += '<div class="text-center">';
-            html += '<p class="text-gray-600 text-sm font-semibold mb-2">Precio desde</p>';
-            html += '<p class="text-4xl font-bold text-orange-600">' + precioFormateado + '</p>';
+            html += '<p class="text-gray-600 text-xs sm:text-sm font-semibold mb-2">Precio desde</p>';
+            html += '<p class="text-3xl sm:text-4xl font-bold text-orange-600">' + precioFormateado + '</p>';
             html += '</div>';
             html += '</div>';
             html += '</div>';
             html += '</div>';
 
             // Columna derecha - Información
-            html += '<div class="space-y-6">';
+            html += '<div class="space-y-6 lg:pl-4">';
             
             // Nombre
             html += '<div>';
             html += '<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">' + emprendimiento.nombre + '</h1>';
-            html += '<p class="text-xl text-gray-600">' + emprendimiento.descripcion + '</p>';
+            html += '<p class="text-base sm:text-lg text-gray-600 leading-relaxed">' + emprendimiento.descripcion + '</p>';
             html += '</div>';
 
             // Descripción detallada
@@ -312,7 +312,7 @@
                 html += '<h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">';
                 html += '<span>📋</span> Acerca de nosotros';
                 html += '</h2>';
-                html += '<p class="text-gray-600 text-lg leading-relaxed">' + emprendimiento.descripcionDetallada + '</p>';
+                html += '<p class="text-gray-600 text-base sm:text-lg leading-relaxed">' + emprendimiento.descripcionDetallada + '</p>';
                 html += '</div>';
             }
 
@@ -328,7 +328,7 @@
                     html += '<svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">';
                     html += '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>';
                     html += '</svg>';
-                    html += '<span class="text-gray-700 text-lg">' + emprendimiento.caracteristicas[i] + '</span>';
+                    html += '<span class="text-gray-700 text-base sm:text-lg">' + emprendimiento.caracteristicas[i] + '</span>';
                     html += '</li>';
                 }
                 html += '</ul>';
@@ -344,7 +344,7 @@
                 html += '<div class="grid grid-cols-2 gap-3">';
                 for (var i = 0; i < emprendimiento.productos.length; i++) {
                     html += '<div class="bg-gradient-to-br from-orange-50 to-yellow-50 px-4 py-3 rounded-xl text-center">';
-                    html += '<p class="text-gray-800 font-semibold">' + emprendimiento.productos[i] + '</p>';
+                    html += '<p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.productos[i] + '</p>';
                     html += '</div>';
                 }
                 html += '</div>';
@@ -361,28 +361,28 @@
             if (emprendimiento.ubicacion) {
                 html += '<div class="flex items-start gap-3">';
                 html += '<span class="text-2xl">📍</span>';
-                html += '<div><p class="text-sm text-gray-500">Ubicación</p><p class="text-gray-800 font-semibold">' + emprendimiento.ubicacion + '</p></div>';
+                html += '<div><p class="text-xs sm:text-sm text-gray-500">Ubicación</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.ubicacion + '</p></div>';
                 html += '</div>';
             }
             
             if (emprendimiento.contacto) {
                 html += '<div class="flex items-start gap-3">';
                 html += '<span class="text-2xl">📱</span>';
-                html += '<div><p class="text-sm text-gray-500">Teléfono</p><p class="text-gray-800 font-semibold">' + emprendimiento.contacto + '</p></div>';
+                html += '<div><p class="text-xs sm:text-sm text-gray-500">Teléfono</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.contacto + '</p></div>';
                 html += '</div>';
             }
             
             if (emprendimiento.email) {
                 html += '<div class="flex items-start gap-3">';
                 html += '<span class="text-2xl">✉️</span>';
-                html += '<div><p class="text-sm text-gray-500">Email</p><p class="text-gray-800 font-semibold">' + emprendimiento.email + '</p></div>';
+                html += '<div><p class="text-xs sm:text-sm text-gray-500">Email</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.email + '</p></div>';
                 html += '</div>';
             }
             
             if (emprendimiento.horario) {
                 html += '<div class="flex items-start gap-3">';
                 html += '<span class="text-2xl">🕐</span>';
-                html += '<div><p class="text-sm text-gray-500">Horario</p><p class="text-gray-800 font-semibold">' + emprendimiento.horario + '</p></div>';
+                html += '<div><p class="text-xs sm:text-sm text-gray-500">Horario</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.horario + '</p></div>';
                 html += '</div>';
             }
             
