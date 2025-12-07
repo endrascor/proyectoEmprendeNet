@@ -13,6 +13,79 @@
         html {
             text-size-adjust: 100%;
         }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            animation: slideInRight 0.3s ease-out, slideOutRight 0.3s ease-in 2.7s;
+            min-width: 300px;
+        }
+        
+        .toast.success { border-left: 4px solid #10b981; }
+        .toast.error { border-left: 4px solid #ef4444; }
+        .toast.info { border-left: 4px solid #3b82f6; }
+        .toast.warning { border-left: 4px solid #f59e0b; }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #fb923c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Fade in animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        /* Pulse animation for buttons */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
     </style>
 
     <script>
@@ -78,6 +151,19 @@
 </header>
 
 <script src="js/script.js"></script>
+
+<!-- Contenedor de notificaciones toast -->
+<div id="toastContainer"></div>
+
+<!-- Spinner de carga -->
+<div id="loadingSpinner" class="hidden fixed inset-0 bg-black bg-opacity-30 z-50">
+    <div class="flex items-center justify-center min-h-full">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
+            <div class="spinner"></div>
+            <p class="text-gray-700 font-semibold">Cargando...</p>
+        </div>
+    </div>
+</div>
 
 <!-- Título -->
 <section id="sessionButtons" class="max-w-6xl mx-auto px-6 py-8">
@@ -341,15 +427,62 @@
 var selectedCategory = 'Todos';
 var emprendimientos = [];
 
+// Sistema de notificaciones toast
+function showToast(message, type = 'info') {
+    var container = document.getElementById('toastContainer');
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    
+    var icons = {
+        success: '✓',
+        error: '✕',
+        info: 'ℹ',
+        warning: '⚠'
+    };
+    
+    toast.innerHTML = '<span style="font-size: 24px;">' + icons[type] + '</span><span>' + message + '</span>';
+    container.appendChild(toast);
+    
+    setTimeout(function() {
+        toast.remove();
+    }, 3000);
+}
+
+// Mostrar/ocultar spinner de carga
+function showLoading() {
+    document.getElementById('loadingSpinner').classList.remove('hidden');
+}
+
+function hideLoading() {
+    document.getElementById('loadingSpinner').classList.add('hidden');
+}
+
+// Animar elemento
+function animateElement(element, animation) {
+    element.classList.add(animation);
+    setTimeout(function() {
+        element.classList.remove(animation);
+    }, 500);
+}
+
 // Cargar emprendimientos desde JSON
 async function cargarEmprendimientos() {
+    showLoading();
     try {
         const response = await fetch("json/emprendimientos.json");
         emprendimientos = await response.json();
+        
+        // Simular pequeño delay para mostrar el spinner
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
         renderEmprendimientos(emprendimientos);
         updatePriceSlider();
+        showToast('Emprendimientos cargados exitosamente', 'success');
     } catch (error) {
         console.error('Error al cargar emprendimientos:', error);
+        showToast('Error al cargar emprendimientos', 'error');
+    } finally {
+        hideLoading();
     }
 }
 
@@ -493,7 +626,7 @@ function renderEmprendimientos(emps) {
         var emp = emps[i];
         var colorCategoria = coloresCategoria[emp.categoria] || 'bg-purple-600';
         
-        html += '<div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1 flex flex-col h-full">';
+        html += '<div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1 flex flex-col h-full fade-in" style="animation-delay: ' + (i * 0.1) + 's;">';
         html += '<div class="' + colorCategoria + ' text-white text-center py-3 font-bold">' + emp.categoria + '</div>';
         html += '<img src="' + emp.imagen + '" alt="' + emp.nombre + '" class="w-full h-48 object-cover">';
         html += '<div class="p-6 flex flex-col flex-grow">';
@@ -524,7 +657,7 @@ function updatePreview(index) {
 function registrarEmprendimiento() {
     var usuario = sessionStorage.getItem('usuarioActual');
     if (!usuario) {
-        alert(' Debes iniciar sesión para registrar un emprendimiento');
+        showToast('Debes iniciar sesión para registrar un emprendimiento', 'warning');
         document.getElementById('loginModal').classList.remove('hidden');
         return;
     }
@@ -533,28 +666,36 @@ function registrarEmprendimiento() {
     var categoria = document.getElementById('categoriaSelect').value;
     var ubicacion = document.getElementById('ubicacionInput').value;
     var descripcion = document.getElementById('descripcionInput').value;
-    var producto1 = document.getElementById('producto1').value;
 
     if (!nombre || !descripcion) {
-        alert('Por favor completa al menos el nombre y la descripción');
+        showToast('Por favor completa al menos el nombre y la descripción', 'warning');
         return;
     }
 
-    // Crear nuevo emprendimiento nuevo
+    // Mostrar loading
+    showLoading();
+    
+    // Simular guardado (puedes quitar el setTimeout si tienes backend real)
+    setTimeout(function() {
+        var nuevoEmprendimiento = {
+            id: emprendimientos.length + 1,
+            nombre: nombre,
+            descripcion: descripcion,
+            categoria: categoria,
+            precio: Math.floor(Math.random() * 20000) + 5000,
+            imagen: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=400&h=300&fit=crop'
+        };
 
-    var nuevoEmprendimiento = {
-        id: emprendimientos.length + 1,
-        nombre: nombre,
-        descripcion: descripcion,
-        categoria: categoria,
-        precio: Math.floor(Math.random() * 20000) + 5000,
-        imagen: producto1 || 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=400&h=300&fit=crop'
-    };
-
-    emprendimientos.push(nuevoEmprendimiento);
-    filterEmprendimientos();
-    cancelarRegistro();
-    alert('¡Emprendimiento registrado exitosamente!');
+        emprendimientos.push(nuevoEmprendimiento);
+        filterEmprendimientos();
+        cancelarRegistro();
+        hideLoading();
+        showToast('¡Emprendimiento registrado exitosamente!', 'success');
+        
+        // Animar botón de registro
+        var registerBtn = document.querySelector('button[onclick="registrarEmprendimiento()"]');
+        if (registerBtn) animateElement(registerBtn, 'pulse');
+    }, 800);
 }
 
 function cancelarRegistro() {
@@ -620,26 +761,26 @@ function registrarUsuario() {
   var password = document.getElementById('registerPassword').value;
   var passwordConfirm = document.getElementById('registerPasswordConfirm').value;
   if (!username || username.length < 3) {
-    alert('El nombre de usuario debe tener al menos 3 caracteres');
+    showToast('El nombre de usuario debe tener al menos 3 caracteres', 'warning');
     return;
   }
   if (password.length < 6) {
-    alert('La contraseña debe tener al menos 6 caracteres');
+    showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
     return;
   }
   if (password !== passwordConfirm) {
-    alert('Las contraseñas no coinciden');
+    showToast('Las contraseñas no coinciden', 'error');
     return;
   }
   var usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
   var existe = usuarios.some(function(u) { return u.username === username; });
   if (existe) {
-    alert('Este nombre de usuario ya está en uso');
+    showToast('Este nombre de usuario ya está en uso', 'warning');
     return;
   }
   usuarios.push({ username: username, password: password });
   localStorage.setItem('usuarios', JSON.stringify(usuarios));
-  alert(' Cuenta creada exitosamente. Ahora puedes iniciar sesión.');
+  showToast('Cuenta creada exitosamente. Ahora puedes iniciar sesión', 'success');
   cerrarRegistroUsuario();
   mostrarLogin();
 }
@@ -647,7 +788,7 @@ function iniciarSesion() {
   var username = document.getElementById('loginUsername').value.trim();
   var password = document.getElementById('loginPassword').value;
   if (!username || !password) {
-    alert('Por favor completa todos los campos');
+    showToast('Por favor completa todos los campos', 'warning');
     return;
   }
   var usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
@@ -657,17 +798,17 @@ function iniciarSesion() {
   if (usuario) {
     sessionStorage.setItem('usuarioActual', username);
     actualizarUIUsuario();
-    alert('¡Bienvenido ' + username + '!');
+    showToast('¡Bienvenido ' + username + '!', 'success');
     cerrarLogin();
   } else {
-    alert('Usuario o contraseña incorrectos');
+    showToast('Usuario o contraseña incorrectos', 'error');
   }
 }
 
 function cerrarSesion() {
   sessionStorage.removeItem('usuarioActual');
   actualizarUIUsuario();
-  alert('Sesión cerrada');
+  showToast('Sesión cerrada', 'info');
 }
 
 function actualizarUIUsuario() {
