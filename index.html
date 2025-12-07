@@ -85,9 +85,9 @@
     <!-- Slides -->
     <div class="overflow-hidden">
     <div id="carouselTW" class="flex transition-transform duration-700 w-full">
-    <img src="images/cafe.jpeg" class="w-full h-[420px] object-cover flex-shrink-0" />
-    <img src="images/canastos.png" class="w-full h-[420px] object-cover flex-shrink-0" />
-    <img src="images/istockphoto.png" class="w-full h-[420px] object-cover flex-shrink-0" />
+    <img id="cafe" class="w-full h-[420px] object-cover flex-shrink-0" />
+    <img id="canasto" class="w-full h-[420px] object-cover flex-shrink-0" />
+    <img id="jarrones" class="w-full h-[420px] object-cover flex-shrink-0" />
   </div>
     </div>
 
@@ -143,6 +143,14 @@
 
   // Avanza automáticamente cada 3000 ms (3 segundos)
   const twAutoPlay = setInterval(() => moveTW(1), 5000);
+
+  fetch("json/carrusel.json")
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("cafe").src = data.cafe;
+    document.getElementById("canasto").src = data.canasto;
+    document.getElementById("jarrones").src = data.jarrones;
+  });
 </script>
 </section>
 
