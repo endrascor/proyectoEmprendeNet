@@ -151,6 +151,44 @@
     <script>
         var emprendimiento = null;
         var currentSlide = 0;
+        var LOCAL_EMPRENDIMIENTOS_KEY = 'emprendimientosLocales'; //key para localStorage
+
+        function obtenerEmprendimientosLocales() {
+            try {
+                var almacenados = JSON.parse(localStorage.getItem(LOCAL_EMPRENDIMIENTOS_KEY));
+                return Array.isArray(almacenados) ? almacenados : [];
+            } catch (error) {
+                console.error('Error al leer emprendimientos locales:', error);
+                return [];
+            }
+        }
+
+        // Buscar emprendimiento por ID
+        function encontrarEmprendimientoPorId(lista, idBuscado) {
+            for (var i = 0; i < lista.length; i++) {
+                if (String(lista[i].id) === String(idBuscado)) {
+                    return lista[i];
+                }
+            }
+            return null;
+        }
+
+        function obtenerGaleriaImagenes(emp) {
+            if (!emp) {
+                return ['https://placehold.co/800x600?text=Emprendimiento'];
+            }
+            var imagenes = [];
+            if (emp.imagenes && emp.imagenes.length) {
+                imagenes = emp.imagenes.slice();
+            }
+            if (imagenes.length === 0 && emp.imagen) {
+                imagenes.push(emp.imagen);
+            }
+            if (imagenes.length === 0) {
+                imagenes.push('https://placehold.co/800x600?text=Emprendimiento');
+            }
+            return imagenes;
+        }
 
         // Obtener ID del emprendimiento de la URL
         function obtenerIdEmprendimiento() {
@@ -160,13 +198,13 @@
 
         // Funciones del carrusel
         function nextSlide() {
-            var imagenes = emprendimiento.imagenes || [emprendimiento.imagen];
+            var imagenes = obtenerGaleriaImagenes(emprendimiento);
             currentSlide = (currentSlide + 1) % imagenes.length;
             updateCarousel();
         }
 
         function prevSlide() {
-            var imagenes = emprendimiento.imagenes || [emprendimiento.imagen];
+            var imagenes = obtenerGaleriaImagenes(emprendimiento);
             currentSlide = (currentSlide - 1 + imagenes.length) % imagenes.length;
             updateCarousel();
         }
@@ -209,10 +247,8 @@
                     return response.json();
                 })
                 .then(function(data) {
-                    // Buscar el emprendimiento por ID
-                    emprendimiento = data.find(function(emp) {
-                        return emp.id == id;
-                    });
+                    var combinados = data.concat(obtenerEmprendimientosLocales());
+                    emprendimiento = encontrarEmprendimientoPorId(combinados, id);
 
                     if (emprendimiento) {
                         mostrarDetalle();
@@ -222,12 +258,19 @@
                 })
                 .catch(function(error) {
                     console.error('Error:', error);
-                    mostrarError();
+                    var locales = obtenerEmprendimientosLocales();
+                    emprendimiento = encontrarEmprendimientoPorId(locales, id);
+                    if (emprendimiento) {
+                        mostrarDetalle();
+                    } else {
+                        mostrarError();
+                    }
                 });
         }
 
         function mostrarDetalle() {
             document.getElementById('loading').style.display = 'none';
+            currentSlide = 0;
             
             var coloresCategoria = {
                 'Alimentos': 'bg-red-500',
@@ -241,14 +284,19 @@
                 'Servicios': 'bg-gray-400'
             };
 
-            var colorCategoria = coloresCategoria[emprendimiento.categoria] || 'bg-purple-600';
-            var precioFormateado = '₡' + emprendimiento.precio.toLocaleString();
+            var categoria = emprendimiento.categoria || 'Sin categoría';
+            var colorCategoria = coloresCategoria[categoria] || 'bg-purple-600';
+            var precioNumero = Number(emprendimiento.precio);
+            var precioFormateado = isNaN(precioNumero)
+                ? 'Precio a consultar'
+                : '₡' + precioNumero.toLocaleString('es-CR');
+            var descripcionBasica = emprendimiento.descripcion || 'Sin descripción disponible.';
 
             var html = '<div class="bg-white rounded-3xl shadow-2xl overflow-hidden">';
             
             // Header con categoría
             html += '<div class="' + colorCategoria + ' text-white px-6 py-4">';
-            html += '<span class="inline-block px-4 py-1 bg-white bg-opacity-20 rounded-full text-sm font-semibold">' + emprendimiento.categoria + '</span>';
+            html += '<span class="inline-block px-4 py-1 bg-white bg-opacity-20 rounded-full text-sm font-semibold">' + categoria + '</span>';
             html += '</div>';
 
             // Contenido principal en grid
@@ -259,7 +307,7 @@
             html += '<div class="space-y-6 lg:sticky lg:top-24">';
             
             // Carrusel
-            var imagenes = emprendimiento.imagenes || [emprendimiento.imagen];
+            var imagenes = obtenerGaleriaImagenes(emprendimiento);
             html += '<div class="carousel-container relative rounded-2xl overflow-hidden shadow-lg">';
             html += '<div id="carouselTrack" class="carousel-track">';
             for (var i = 0; i < imagenes.length; i++) {
@@ -303,7 +351,7 @@
             // Nombre
             html += '<div>';
             html += '<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">' + emprendimiento.nombre + '</h1>';
-            html += '<p class="text-base sm:text-lg text-gray-600 leading-relaxed">' + emprendimiento.descripcion + '</p>';
+            html += '<p class="text-base sm:text-lg text-gray-600 leading-relaxed">' + descripcionBasica + '</p>';
             html += '</div>';
 
             // Descripción detallada

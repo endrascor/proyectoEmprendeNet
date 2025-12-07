@@ -505,6 +505,7 @@ var selectedCategory = 'Todos';
 var todosEmprendimientos = [];
 var emprendimientosFiltrados = [];
 var emprendimientos = []; // Mantener por compatibilidad
+var LOCAL_EMPRENDIMIENTOS_KEY = 'emprendimientosLocales'; // Clave para LocalStorage
 
 // Sistema de notificaciones toast
 function showToast(message, type = 'info') {
@@ -527,6 +528,30 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
+function obtenerEmprendimientosLocales() {
+    try {
+        var almacenados = JSON.parse(localStorage.getItem(LOCAL_EMPRENDIMIENTOS_KEY));
+        return Array.isArray(almacenados) ? almacenados : [];
+    } catch (error) {
+        console.error('Error al leer emprendimientos locales:', error);
+        return [];
+    }
+}
+
+function guardarEmprendimientosLocales(lista) {
+    localStorage.setItem(LOCAL_EMPRENDIMIENTOS_KEY, JSON.stringify(lista));
+}
+
+function agregarEmprendimientoLocal(emprendimiento) {
+    var locales = obtenerEmprendimientosLocales();
+    locales.push(emprendimiento);
+    guardarEmprendimientosLocales(locales);
+}
+
+function fusionarConLocales(remotos) {
+    return remotos.concat(obtenerEmprendimientosLocales());
+}
+
 // Animar elemento
 function animateElement(element, animation) {
     element.classList.add(animation);
@@ -542,14 +567,27 @@ function cargarEmprendimientos() {
             return response.json();
         })
         .then(function(data) {
-            todosEmprendimientos = data;
-            emprendimientosFiltrados = data;
-            renderEmprendimientos(emprendimientosFiltrados);
+            actualizarFuenteEmprendimientos(fusionarConLocales(data));
         })
         .catch(function(error) {
             console.error('Error al cargar emprendimientos:', error);
-            showToast('Error al cargar emprendimientos', 'error');
+            var locales = obtenerEmprendimientosLocales();
+            if (locales.length > 0) {
+                actualizarFuenteEmprendimientos(locales);
+                showToast('Mostrando emprendimientos guardados localmente', 'info');
+            } else {
+                todosEmprendimientos = [];
+                emprendimientosFiltrados = [];
+                renderEmprendimientos([]);
+                showToast('Error al cargar emprendimientos', 'error');
+            }
         });
+}
+
+function actualizarFuenteEmprendimientos(lista) {
+    todosEmprendimientos = lista.slice();
+    emprendimientos = lista.slice();
+    filterEmprendimientos();
 }
 
 function toggleFilters() {
@@ -656,10 +694,13 @@ function filterEmprendimientos() {
     var filtered = [];
     for (var i = 0; i < todosEmprendimientos.length; i++) {
         var emp = todosEmprendimientos[i];
-        var matchesSearch = emp.nombre.toLowerCase().indexOf(searchTerm) !== -1 || 
-                            emp.descripcion.toLowerCase().indexOf(searchTerm) !== -1;
+        var nombreBusqueda = (emp.nombre || '').toLowerCase();
+        var descripcionBusqueda = (emp.descripcion || '').toLowerCase();
+        var matchesSearch = nombreBusqueda.indexOf(searchTerm) !== -1 || 
+                            descripcionBusqueda.indexOf(searchTerm) !== -1;
         var matchesCategory = selectedCategory === 'Todos' || emp.categoria === selectedCategory;
-        var matchesPrice = emp.precio >= minPrice && emp.precio <= maxPrice;
+        var precioEmp = Number(emp.precio) || 0;
+        var matchesPrice = precioEmp >= minPrice && precioEmp <= maxPrice;
         
         if (matchesSearch && matchesCategory && matchesPrice) {
             filtered.push(emp);
@@ -691,15 +732,18 @@ function renderEmprendimientos(emps) {
     
     for (var i = 0; i < emps.length; i++) {
         var emp = emps[i];
-        var colorCategoria = coloresCategoria[emp.categoria] || 'bg-purple-600';
+        var categoria = emp.categoria || 'Sin categoría';
+        var colorCategoria = coloresCategoria[categoria] || 'bg-purple-600';
+        var imagenCard = emp.imagen || 'https://placehold.co/600x400?text=Emprendimiento';
+        var descripcionCard = emp.descripcion || 'Sin descripción disponible.';
         
         html += '<div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1 flex flex-col h-full fade-in" style="animation-delay: ' + (i * 0.1) + 's;">';
-        html += '<div class="' + colorCategoria + ' text-white text-center py-3 font-bold">' + emp.categoria + '</div>';
-        html += '<img src="' + emp.imagen + '" alt="' + emp.nombre + '" class="w-full h-48 object-cover">';
+        html += '<div class="' + colorCategoria + ' text-white text-center py-3 font-bold">' + categoria + '</div>';
+        html += '<img src="' + imagenCard + '" alt="' + (emp.nombre || 'Emprendimiento') + '" class="w-full h-48 object-cover">';
         html += '<div class="p-6 flex flex-col flex-grow">';
-        html += '<h3 class="text-xl font-bold text-gray-800 mb-2">' + emp.nombre + '</h3>';
-        html += '<p class="text-gray-600 mb-4 flex-grow">' + emp.descripcion + '</p>';
-        html += '<a href="detalle-emprendimiento.html?id=' + emp.id + '" class="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 rounded-xl transition shadow-md mt-auto text-center">Ver más</a>';
+        html += '<h3 class="text-xl font-bold text-gray-800 mb-2">' + (emp.nombre || 'Emprendimiento sin nombre') + '</h3>';
+        html += '<p class="text-gray-600 mb-4 flex-grow">' + descripcionCard + '</p>';
+        html += '<a href="detalle-emprendimiento.html?id=' + (emp.id || '') + '" class="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 rounded-xl transition shadow-md mt-auto text-center">Ver más</a>';
         html += '</div></div>';
     }
     
@@ -714,45 +758,128 @@ function registrarEmprendimiento() {
         return;
     }
 
-    var nombre = document.getElementById('nombreInput').value;
+    var nombre = document.getElementById('nombreInput').value.trim();
     var categoria = document.getElementById('categoriaSelect').value;
-    var ubicacion = document.getElementById('ubicacionInput').value;
-    var descripcion = document.getElementById('descripcionInput').value;
+    var precioValor = parseInt(document.getElementById('precioInput').value, 10);
+    var ubicacion = document.getElementById('ubicacionInput').value.trim();
+    var contacto = document.getElementById('contactoInput').value.trim();
+    var email = document.getElementById('emailInput').value.trim();
+    var horario = document.getElementById('horarioInput').value.trim();
+    var descripcionDetallada = document.getElementById('descripcionInput').value.trim();
+    var caracteristicasTexto = document.getElementById('caracteristicasInput').value;
+    var productosTexto = document.getElementById('productosInput').value;
 
-    if (!nombre || !descripcion) {
+    if (!nombre || !descripcionDetallada) {
         showToast('Por favor completa al menos el nombre y la descripción', 'warning');
         return;
     }
-    
-    // Simular guardado (puedes quitar el setTimeout si tienes backend real)
-    setTimeout(function() {
-        var nuevoEmprendimiento = {
-            id: emprendimientos.length + 1,
-            nombre: nombre,
-            descripcion: descripcion,
-            categoria: categoria,
-            precio: Math.floor(Math.random() * 20000) + 5000,
-            imagen: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=400&h=300&fit=crop'
-        };
 
-        emprendimientos.push(nuevoEmprendimiento);
-        filterEmprendimientos();
-        cancelarRegistro();
-        showToast('¡Emprendimiento registrado exitosamente!', 'success');
-        
-        // Animar botón de registro
-        var registerBtn = document.querySelector('button[onclick="registrarEmprendimiento()"]');
-        if (registerBtn) animateElement(registerBtn, 'pulse');
-    }, 800);
+    if (categoria === 'Todos') {
+        showToast('Selecciona una categoría válida', 'warning');
+        return;
+    }
+
+    if (isNaN(precioValor) || precioValor <= 0) {
+        showToast('Ingresa un precio válido', 'warning');
+        return;
+    }
+
+    var imagenesSeleccionadas = obtenerImagenesSeleccionadas();
+    var nuevoEmprendimiento = {
+        id: 'local-' + Date.now(),
+        nombre: nombre,
+        descripcion: crearDescripcionCorta(descripcionDetallada),
+        descripcionDetallada: descripcionDetallada,
+        categoria: categoria,
+        precio: precioValor,
+        imagen: imagenesSeleccionadas[0] || 'https://placehold.co/600x400?text=Emprendimiento',
+        imagenes: imagenesSeleccionadas,
+        ubicacion: ubicacion,
+        contacto: contacto,
+        email: email,
+        horario: horario,
+        caracteristicas: convertirTextoEnLista(caracteristicasTexto),
+        productos: convertirTextoEnLista(productosTexto)
+    };
+
+    agregarEmprendimientoLocal(nuevoEmprendimiento);
+    todosEmprendimientos.push(nuevoEmprendimiento);
+    emprendimientos.push(nuevoEmprendimiento);
+    filterEmprendimientos();
+    cancelarRegistro();
+    showToast('¡Emprendimiento registrado exitosamente!', 'success');
+
+    var registerBtn = document.querySelector('button[onclick="registrarEmprendimiento()"]');
+    if (registerBtn) animateElement(registerBtn, 'pulse');
 }
 
 function cancelarRegistro() {
     document.getElementById('nombreInput').value = '';
     document.getElementById('categoriaSelect').value = 'Todos';
-    document.getElementById('ubicacionInput').value = 'https://';
+    document.getElementById('precioInput').value = '';
+    document.getElementById('ubicacionInput').value = '';
+    document.getElementById('contactoInput').value = '';
+    document.getElementById('emailInput').value = '';
+    document.getElementById('horarioInput').value = '';
     document.getElementById('descripcionInput').value = '';
+    document.getElementById('caracteristicasInput').value = '';
+    document.getElementById('productosInput').value = '';
+    limpiarImagenesFormulario();
     document.getElementById('registerContent').classList.add('hidden');
     document.getElementById('registerIcon').style.transform = 'rotate(0deg)';
+}
+
+function crearDescripcionCorta(texto) {
+    if (!texto) {
+        return 'Sin descripción disponible.';
+    }
+    var limpio = texto.trim();
+    return limpio.length <= 140 ? limpio : limpio.slice(0, 137) + '...';
+}
+
+function convertirTextoEnLista(texto) {
+    if (!texto) {
+        return [];
+    }
+    var partes = texto.split(/\n|,|;/);
+    var resultado = [];
+    for (var i = 0; i < partes.length; i++) {
+        var item = partes[i].trim();
+        if (item) {
+            resultado.push(item);
+        }
+    }
+    return resultado;
+}
+
+function obtenerImagenesSeleccionadas() {
+    var imagenes = [];
+    for (var i = 1; i <= 3; i++) {
+        var preview = document.getElementById('preview' + i);
+        if (preview && preview.dataset.src) {
+            imagenes.push(preview.dataset.src);
+        }
+    }
+    return imagenes;
+}
+
+function limpiarImagenesFormulario() {
+    for (var i = 1; i <= 3; i++) {
+        var preview = document.getElementById('preview' + i);
+        var placeholder = document.getElementById('placeholder' + i);
+        var input = document.getElementById('fileInput' + i);
+        if (preview) {
+            preview.src = '';
+            preview.dataset.src = '';
+            preview.classList.add('hidden');
+        }
+        if (placeholder) {
+            placeholder.classList.remove('hidden');
+        }
+        if (input) {
+            input.value = '';
+        }
+    }
 }
 
 
@@ -895,21 +1022,32 @@ function cerrarVideoYoutube() {
   iframe.src = ''; // Detener el video al cerrar
   modal.classList.add('hidden');
 }
-
+// Funciones para selección y previsualización de imágenes en el formulario
 function selectImage(index) {
     document.getElementById('fileInput' + index).click();
 }
-
+// Previsualizar imagen seleccionada
 function previewImage(event, index) {
     const file = event.target.files[0];
-    if (!file) return;
-
     const preview = document.getElementById('preview' + index);
     const placeholder = document.getElementById('placeholder' + index);
+
+    if (!file) {
+        if (preview) {
+            preview.src = '';
+            preview.dataset.src = '';
+            preview.classList.add('hidden');
+        }
+        if (placeholder) {
+            placeholder.classList.remove('hidden');
+        }
+        return;
+    }
 
     const reader = new FileReader();
     reader.onload = function(e) {
         preview.src = e.target.result;
+        preview.dataset.src = e.target.result;
         preview.classList.remove('hidden');
         placeholder.classList.add('hidden');
     };
