@@ -59,6 +59,12 @@
             min-width: 100%;
             flex-shrink: 12;
         }
+
+        .texto-ordenado {
+            text-align: justify;
+            text-justify: inter-word;
+            hyphens: auto;
+        }
     </style>
 </head>
 <body class="bg-[#fbf6ec]">
@@ -171,6 +177,20 @@
                 }
             }
             return null;
+        }
+
+        function construirEnlaceWhatsApp(numero) {
+            if (!numero) {
+                return '';
+            }
+            var digitos = String(numero).replace(/\D/g, '');
+            if (!digitos) {
+                return '';
+            }
+            if (digitos.length === 8) {
+                digitos = '506' + digitos;
+            }
+            return 'https://wa.me/' + digitos;
         }
 
         function obtenerGaleriaImagenes(emp) {
@@ -351,16 +371,19 @@
             // Nombre
             html += '<div>';
             html += '<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">' + emprendimiento.nombre + '</h1>';
-            html += '<p class="text-base sm:text-lg text-gray-600 leading-relaxed">' + descripcionBasica + '</p>';
+            html += '<p class="texto-ordenado text-base sm:text-lg text-gray-600 leading-relaxed">' + descripcionBasica + '</p>';
             html += '</div>';
 
             // Descripción detallada
             if (emprendimiento.descripcionDetallada) {
                 html += '<div class="border-t pt-6">';
                 html += '<h2 class="text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">';
-                html += '<span>📋</span> Acerca de nosotros';
+                html += '<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 6a9 9 0 110 18 9 9 0 010-18z"></path>';
+                html += '</svg>';
+                html += '<span>Acerca de nosotros</span>';
                 html += '</h2>';
-                html += '<p class="text-gray-600 text-base sm:text-lg leading-relaxed">' + emprendimiento.descripcionDetallada + '</p>';
+                html += '<p class="texto-ordenado text-gray-600 text-base sm:text-lg leading-relaxed">' + emprendimiento.descripcionDetallada + '</p>';
                 html += '</div>';
             }
 
@@ -368,7 +391,10 @@
             if (emprendimiento.caracteristicas && emprendimiento.caracteristicas.length > 0) {
                 html += '<div class="border-t pt-6">';
                 html += '<h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">';
-                html += '<span>✨</span> Características';
+                html += '<svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3L8.5 7.5H4l3.5 2.75L6.25 14 9.75 11.5 13.25 14l-1.25-3.75L15.5 7.5H11l-1.25-4.5z"></path>';
+                html += '</svg>';
+                html += '<span>Características</span>';
                 html += '</h2>';
                 html += '<ul class="space-y-3">';
                 for (var i = 0; i < emprendimiento.caracteristicas.length; i++) {
@@ -387,7 +413,12 @@
             if (emprendimiento.productos && emprendimiento.productos.length > 0) {
                 html += '<div class="border-t pt-6">';
                 html += '<h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">';
-                html += '<span>🛍️</span> Nuestros Productos';
+                html += '<svg class="w-6 h-6 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 9l1-4h8l1 4" />';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h14v10a2 2 0 01-2 2H7a2 2 0 01-2-2V9z" />';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9v3m6-3v3" />';
+                html += '</svg>';
+                html += '<span>Nuestros Productos</span>';
                 html += '</h2>';
                 html += '<div class="grid grid-cols-2 gap-3">';
                 for (var i = 0; i < emprendimiento.productos.length; i++) {
@@ -402,34 +433,54 @@
             // Información de contacto
             html += '<div class="border-t pt-6">';
             html += '<h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">';
-            html += '<span>📞</span> Información de Contacto';
+            html += '<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+            html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.494a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.494 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>';
+            html += '</svg>';
+            html += '<span>Información de Contacto</span>';
             html += '</h2>';
             html += '<div class="space-y-3 bg-gray-50 p-6 rounded-2xl">';
+            var enlaceWhatsApp = construirEnlaceWhatsApp(emprendimiento.contacto);
             
             if (emprendimiento.ubicacion) {
                 html += '<div class="flex items-start gap-3">';
-                html += '<span class="text-2xl">📍</span>';
+                html += '<svg class="w-6 h-6 text-gray-700 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm0 0l-.011.011C10.832 12.166 7 15.58 7 18a5 5 0 0010 0c0-2.42-3.832-5.834-4.989-6.989z"></path>';
+                html += '</svg>';
                 html += '<div><p class="text-xs sm:text-sm text-gray-500">Ubicación</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.ubicacion + '</p></div>';
                 html += '</div>';
             }
             
             if (emprendimiento.contacto) {
                 html += '<div class="flex items-start gap-3">';
-                html += '<span class="text-2xl">📱</span>';
-                html += '<div><p class="text-xs sm:text-sm text-gray-500">Teléfono</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.contacto + '</p></div>';
+                html += '<svg class="w-6 h-6 text-gray-700 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.494a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.494 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>';
+                html += '</svg>';
+                html += '<div><p class="text-xs sm:text-sm text-gray-500">Teléfono</p>';
+                if (enlaceWhatsApp) {
+                    html += '<a href="' + enlaceWhatsApp + '" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold text-sm sm:text-base hover:underline">' + emprendimiento.contacto + '</a>';
+                } else {
+                    html += '<p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.contacto + '</p>';
+                }
+                html += '</div>';
                 html += '</div>';
             }
             
             if (emprendimiento.email) {
                 html += '<div class="flex items-start gap-3">';
-                html += '<span class="text-2xl">✉️</span>';
+                html += '<svg class="w-6 h-6 text-gray-700 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8"></path>';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>';
+                html += '</svg>';
                 html += '<div><p class="text-xs sm:text-sm text-gray-500">Email</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.email + '</p></div>';
                 html += '</div>';
             }
             
             if (emprendimiento.horario) {
                 html += '<div class="flex items-start gap-3">';
-                html += '<span class="text-2xl">🕐</span>';
+                html += '<svg class="w-6 h-6 text-gray-700 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
+                html += '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"></path>';
+                html += '<circle cx="12" cy="12" r="9" stroke-width="2" stroke="currentColor" fill="none"></circle>';
+                html += '</svg>';
                 html += '<div><p class="text-xs sm:text-sm text-gray-500">Horario</p><p class="text-gray-800 font-semibold text-sm sm:text-base">' + emprendimiento.horario + '</p></div>';
                 html += '</div>';
             }
